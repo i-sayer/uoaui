@@ -10,7 +10,11 @@
   font-family: sans-serif;
   background-color: cornsilk;
   color: rgba(0,0,0,0.66);
-  margin: 2em;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 .kwrap {
   display: grid;
@@ -141,6 +145,10 @@ z-index: inherit;}
   display: grid;
   grid-gap: 0.5em;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+.multicol, .kwrap {
+  max-width: 1200px;
+  margin: auto;
 }
     </style>
 </head>
