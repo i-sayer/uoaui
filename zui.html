@@ -61,7 +61,7 @@ input[type=radio]+label[for]::before {
 input:checked+label[for]::before {
   background-color: teal;
 }
-@supports (clip-path: circle(0%)){
+@supports (clip-path: circle(0%)) or (-webkit-clip-path: circle(0%)){
 label[for]::after {
   content:"";
   display: inline-block;
@@ -72,15 +72,17 @@ label[for]::after {
   height: 64px;
   border-radius: 50%;
   clip-path: circle(0%);
+  -webkit-clip-path: circle(0%);
   opacity: 1;
   background: radial-gradient(circle, transparent 30% , #3a3);
   transition: 1.2s;
-  transition-property: opacity, clip-path;
+  transition-property: opacity, clip-path, -webkit-clip-path;
   transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
 }
 input:checked+label[for]::after {
   opacity: 0;
   clip-path: circle(100%);
+  -webkit-clip-path: circle(100%);
 }
 }
 .tbx.fullwidth {
