@@ -18,7 +18,6 @@ body {
 }
 .kwrap {
   display: grid;
-  width: 400px;
   grid-template-columns: repeat(auto-fit, minmax(22%, 1fr));
   grid-gap: 6px;
   padding: 6px;
@@ -61,7 +60,6 @@ input[type=radio]+label[for]::before {
 input:checked+label[for]::before {
   background-color: teal;
 }
-@supports (clip-path: circle(0%)) or (-webkit-clip-path: circle(0%)){
 label[for]::after {
   content:"";
   display: inline-block;
@@ -71,19 +69,18 @@ label[for]::after {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  clip-path: circle(0%);
-  -webkit-clip-path: circle(0%);
   opacity: 1;
-  background: radial-gradient(circle, transparent 30% , #3a3);
-  transition: 1.2s;
-  transition-property: opacity, clip-path, -webkit-clip-path;
-  transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+  /*background: radial-gradient(circle, transparent 30% , #3a3 40%);*/
+  box-shadow: 0 0 5px inset #ccc;
+  transform: scale(0);
+  transition: 0.4s;
+  transition-property: opacity, transform, box-shadow;
+  transition-timing-function: ease-out;
 }
 input:checked+label[for]::after {
   opacity: 0;
-  clip-path: circle(100%);
-  -webkit-clip-path: circle(100%);
-}
+  box-shadow: 0 0 35px inset #000;
+  transform: scale(1);
 }
 .tbx.fullwidth {
   grid-column: 1 / -1;
@@ -101,20 +98,20 @@ input:checked+label[for]::after {
   overflow-x: hidden;
 }
 .tbx>input+span{
-  transform: translate(0, 1.5em);
-  transition: transform 0.3s ease-in;
+  transform: translate(0, 1.616em);
+  transition: transform 0.3s ease;
 }
 .tbx>input+span::after {
   content: "";
-  width: 100%;
-  height: 1.5px;
+  width: calc(100% + 0.5em);
+  height: 4px;
   background: linear-gradient(90deg, #00467c 50%, transparent 50%);
-  background-size: 200%;
+  background-size: 204%;
   background-position-x: 100%;
   position: absolute;
   left: 0;
-  bottom: -2px;
-  transition: background-position 0.2s ease-in 0.1s;
+  bottom: -4px;
+  transition: background-position 0.2s ease 0.1s;
 }
 .tbx>input:focus+span::after {
   background-position-x: 0%;
