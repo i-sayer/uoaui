@@ -8,20 +8,24 @@
     <style>
         :root {
   font: 19px "Segoe UI", s sans-serif;
-  background-color: #a9a9dd;
-  background: linear-gradient( 20deg,rgba(230,230,255,0.3) 30%,
-   rgba(230,230,255,0.6) 33%,rgba(230,230,255,0.2) 53%
-   ,rgba(230,230,255,0.7) 71%
-   ),linear-gradient( -80deg,rgba(130,230,255,0.3) 30%,
-   rgba(130,230,255,0.6) 33%,rgba(130,230,255,0.2) 53%
-   ,rgba(130,230,255,0.2) 71%
-   );
   color: rgba(0,0,0,0.66);
 }
 body {
+  margin: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+h1 {
+  font-size: calc(18px + 4.5vmin);
+  margin: 1.616rem 0;
+}
+.banner {
+  text-align: center;
+  transition: background-position 0.6s ease;
+}
+.banner:hover {
+  background-position: 0, 3.3vw, -5vw, 7vw;
 }
 .kwrap {
   display: grid;
@@ -163,6 +167,7 @@ z-index: inherit;}
     </style>
 </head>
 <body>
+    <header class="banner"><h1>Page Heading</h1></header>
     <div class="kwrap">
         <input id="ch1" type="checkbox">
         <label for="ch1" class="fullwidth">I'm a little teapot </label>
@@ -182,6 +187,7 @@ z-index: inherit;}
         <label class="tbx"><input type="text" required /><span>Email</span></label>
         <label class="tbx fullwidth"><input type="text" required /><span>Address</span></label>
     </div>
+    <script src="randomBarBg.js" />
 <script>
     // let w,i,wraps = document.querySelectorAll(".kwrap");
     // for (i=0; w=wraps[i]; i++)
