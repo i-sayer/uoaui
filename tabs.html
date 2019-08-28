@@ -33,7 +33,7 @@
             color: #00807c;
             text-align: center;
             user-select: none;
-            background: linear-gradient(rgba(0,0,0,0.2) 86%,rgba(0,0,0,0.5));
+            background: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.3));
             clip-path: polygon(0 100%,6px 0,calc(100% - 6px) 0,100% 100%);
         }
         .tabbar>span {
@@ -45,13 +45,15 @@
         .tabbox>section {
             padding: 6px;
         }
-        #t0:checked~div.tabbar>[for=t0],#t1:checked~div.tabbar>[for=t1],#t2:checked~div.tabbar>[for=t2] {
+        #t0:checked~div.tabbar>[for=t0],#t1:checked~div.tabbar>[for=t1],#t2:checked~div.tabbar>[for=t2],
+        #t3:checked~div.tabbar>[for=t3],#t4:checked~div.tabbar>[for=t4],#t5:checked~div.tabbar>[for=t5],
+        #t6:checked~div.tabbar>[for=t6] {
             color: black;
             background: white;
             /* box-shadow: 0 3px 0 rgba(0,0,0,0.2); */
         }
 
-        #t0~.tw>.t0,#t1~.tw>.t1,#t2~.tw>.t2 {
+        #t0~.tw>.t0,#t1~.tw>.t1,#t2~.tw>.t2,#t3~.tw>.t3,#t4~.tw>.t4,#t5~.tw>.t5,#t6~.tw>.t6 {
             /* display: none; */
             opacity: 0;
             position: absolute;
@@ -60,7 +62,8 @@
             transition: 0.6s ease;
             transition-property: transform, opacity;
         }
-        #t0:checked~.tw>.t0,#t1:checked~.tw>.t1,#t2:checked~.tw>.t2 {
+        #t0:checked~.tw>.t0,#t1:checked~.tw>.t1,#t2:checked~.tw>.t2,#t3:checked~.tw>.t3,
+        #t4:checked~.tw>.t4,#t5:checked~.tw>.t5,#t6:checked~.tw>.t6 {
             display: block;
             opacity: 1;
             transform: translateX(0);
@@ -102,7 +105,7 @@
     </template>
     <script>
         var inventory = document.importNode(tabcomponent.content, true);
-        inventory.firstElementChild.dataset.tabs = "Hats;Coats;Bata Bullets";
+        inventory.firstElementChild.dataset.tabs = "Nurses;Surgeons;Anaesthetists;ATech;HCA";
         document.body.appendChild(inventory);
         Array.from(document.querySelectorAll("section")).forEach(u=>u.textContent = randomtext());
         function fyshuffle(a){
