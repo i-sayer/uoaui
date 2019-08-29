@@ -10,6 +10,18 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 20px;
         }
+
+    </style>
+</head>
+<body>
+    <h1 class="heading">Tab Component Demo</h1>
+    <template id="tabcomponentN">
+        <label for="t$"></label>
+        <input type="radio" id="t$" name="_" />
+        <slot class="t$" name="c$"></slot>
+    </template>
+    <template id="tabcomponent">
+        <style>
         .tabbox {
             padding: 3px;
         }
@@ -45,9 +57,12 @@
         }
         .tw {
             position:relative;
+            display: block;
+            min-height: 30vh;
         }
-        .tabbox>section {
+        .tw>slot {
             padding: 6px;
+            display: inline-block;
         }
         #t0:checked~div.tabbar>[for=t0],#t1:checked~div.tabbar>[for=t1],#t2:checked~div.tabbar>[for=t2],
         #t3:checked~div.tabbar>[for=t3],#t4:checked~div.tabbar>[for=t4],#t5:checked~div.tabbar>[for=t5],
@@ -70,49 +85,53 @@
             opacity: 1;
             transform: translateX(0);
         }
-
-    </style>
-</head>
-<body>
-    <h1 class="heading">Tab Component Demo</h1>
-    <template id="tabcomponentN">
-        <label for="t$"></label>
-        <input type="radio" id="t$" name="_" />
-        <section class="t$"></section>
-    </template>
-    <template id="tabcomponent">
+        </style>
         <div class="tabbox">
             <div class="tabbar">
             </div>
             <div class="tw"></div>
         </div>
-        <script>
-            var par = document.currentScript.previousElementSibling;
-            var bar = par.firstElementChild;
-            var wrp = par.lastElementChild;
-            par.dataset.tabs.split(";").forEach(function(n,i) {
-                var sub = document.importNode(tabcomponentN.content, true);
-                var dx, d = sub.firstElementChild;
-                d.textContent = n;
-                var dests = [bar,par,wrp];
-                for (var j=0; d; j++) {
-                    Array.from(d.attributes).forEach(x=>x.nodeValue = x.nodeValue.replace("$",i));
-                    dx = d.nextElementSibling;
-                    dests[j][(j==1)?"insertBefore":"appendChild"](d,bar);
-                    d = dx;
-                }
-            });
-            bar.appendChild(document.createElement("span"));
-            par.querySelector("input[type='radio']").checked = true;
-            </script>
     </template>
+    <sh-tabs id="nums" data-tabs="One;Two;Three"></sh-tabs>
+    <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
+        <h2 slot="c0">Red</h2>
+        <div slot="c1"><h3>Green</h3><img src="https://i-sayer.github.io/skellington/images/albert.jpg" alt=""></div>
+        <h2 slot="c2">Buuve</h2>
+    </sh-tabs>
     <script src="demoUtils.js" ></script>
     <script>
-        var inventory = document.importNode(tabcomponent.content, true);
-        inventory.firstElementChild.dataset.tabs = "Nurses;Surgeons;Anaesthetists;ATech;HCA";
-        document.body.appendChild(inventory);
-        Array.from(document.querySelectorAll("section")).forEach(u=>u.textContent = dutil.icelandic());
-        dutil.randomBarBg(".heading");
-    </script>
+        customElements.define('sh-tabs',
+            class extends HTMLElement {
+                constructor(){
+                    super();
+                    var template = document
+                        .getElementById("tabcomponent")
+                        .content;
+                    const shadowRoot = this.attachShadow({mode: "open"})
+                        .appendChild(template.cloneNode(true));
+                    var par = this.shadowRoot.lastElementChild;
+                    var bar = par.firstElementChild;
+                    var wrp = par.lastElementChild;
+                    this.dataset.tabs.split(";").forEach(function(n,i) {
+                        var sub = document
+                            .importNode(tabcomponentN.content, true);
+                        var dx, d = sub.firstElementChild;
+                        d.textContent = n;
+                        var dests = [bar,par,wrp];
+                        for (var j=0; d; j++) {
+                            Array.from(d.attributes).forEach(x=>x.nodeValue = x.nodeValue.replace("$",i));
+                            dx = d.nextElementSibling;
+                            dests[j][(j==1)?"insertBefore":"appendChild"](d,bar);
+                            d = dx;
+                        }
+                    });
+                    bar.appendChild(document.createElement("span"));
+                    par.querySelector("input[type='radio']").checked = true;
+                }
+            }
+        )
+        Array.from(nums.shadowRoot.querySelectorAll("slot")).forEach(u=>u.textContent = dutil.icelandic());
+        //Array.from(hsl.shadowRoot.querySelectorAll("section")).forEach(u=>u.textContent = dutil.icelandic());
+        </script>
 </body>
 </html>
