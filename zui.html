@@ -85,16 +85,15 @@ label[for]::after {
   height: 64px;
   border-radius: 50%;
   opacity: 1;
-  /*background: radial-gradient(circle, transparent 30% , #3a3 40%);*/
   box-shadow: 0 0 15px inset #66c;
-  /* transform: scale(0); */
-  transition: opacity 1.4s ease-out;
-  /* transition-property: opacity, transform, box-shadow; */
+  transform: scale(0);
+  transition: 0.4s ease-out;
+  transition-property: opacity, transform, box-shadow;
 }
 input:checked+label[for]::after {
-  opacity: 0.125;
-  /* box-shadow: 0 0 35px inset #000; */
-  /* transform: scale(1); */
+  opacity: 0;
+  box-shadow: 0 0 35px inset #000;
+  transform: scale(1);
 }
 .tbx.fullwidth {
   grid-column: 1 / -1;
