@@ -87,14 +87,17 @@ label[for]::after {
   opacity: 1;
   /*background: radial-gradient(circle, transparent 30% , #3a3 40%);*/
   box-shadow: 0 0 15px inset #66c;
+  -webkit-transform: scale(0);
   transform: scale(0);
-  transition: 1.4s;
+  -webkit-transition: 1.4s ease-out;
+  transition: 1.4s ease-out;
+  -webkit-transition-property: opacity, transform, box-shadow;
   transition-property: opacity, transform, box-shadow;
-  transition-timing-function: ease-out;
 }
 input:checked+label[for]::after {
   opacity: 0.5;
   box-shadow: 0 0 35px inset #000;
+  -webkit-transform: scale(1);
   transform: scale(1);
 }
 .tbx.fullwidth {
