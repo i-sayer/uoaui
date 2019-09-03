@@ -7,7 +7,7 @@
     <title>zui</title>
     <style>
         :root {
-  font: 19px "Segoe UI", s sans-serif;
+  font: 19px "Segoe UI", sans-serif;
   color: rgba(0,0,0,0.66);
 }
 body {
@@ -86,14 +86,14 @@ label[for]::after {
   border-radius: 50%;
   opacity: 1;
   /*background: radial-gradient(circle, transparent 30% , #3a3 40%);*/
-  box-shadow: 0 0 5px inset #ccc;
+  box-shadow: 0 0 15px inset #66c;
   transform: scale(0);
-  transition: 0.4s;
+  transition: 1.4s;
   transition-property: opacity, transform, box-shadow;
   transition-timing-function: ease-out;
 }
 input:checked+label[for]::after {
-  opacity: 0;
+  opacity: 0.5;
   box-shadow: 0 0 35px inset #000;
   transform: scale(1);
 }
