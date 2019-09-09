@@ -29,12 +29,12 @@
             <div class="tw"></div>
         </div>
     </template>
-    <sh-tabs id="nums" data-tabs="One;Two;Three"></sh-tabs>
     <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
         <h2 slot="c0">Red</h2>
         <div slot="c1"><h3>Green</h3><img src="https://i-sayer.github.io/skellington/images/albert.jpg" alt=""></div>
         <h2 slot="c2">Buuve</h2>
     </sh-tabs>
+    <sh-tabs id="nums" data-tabs="Canus lupus;Equus quagga;Acinonyx jubatis;Gnu"></sh-tabs>
     <script src="demoUtils.js" ></script>
     <script>
         customElements.define('sh-tabs',
@@ -58,16 +58,31 @@
                         for (var j=0; d; j++) {
                             Array.from(d.attributes).forEach(x=>x.nodeValue = x.nodeValue.replace("$",i));
                             dx = d.nextElementSibling;
-                            dests[j][(j==1)?"insertBefore":"appendChild"](d,bar);
+                            switch (j) {
+                                case 0:
+                                bar.appendChild(d);break;
+                                case 1:
+                                par.insertBefore(d, bar);
+                                d.onclick = changeHeight;
+                                break;
+                                case 2:
+                                wrp.appendChild(d);
+                            }
+                            // dests[j][(j==1)?"insertBefore":"appendChild"](d,bar);
                             d = dx;
                         }
                     });
+                    function changeHeight(e){
+                        let height = this.parentElement.querySelector("slot."+this.id).offsetHeight;
+                        this.parentElement.style.height = height+"px";
+                    }
                     bar.appendChild(document.createElement("span"));
                     par.querySelector("input[type='radio']").checked = true;
                 }
             }
         )
         Array.from(nums.shadowRoot.querySelectorAll("slot")).forEach(u=>u.textContent = dutil.icelandic());
+        hsl.lastElementChild.textContent = dutil.icelandic();
         //Array.from(hsl.shadowRoot.querySelectorAll("section")).forEach(u=>u.textContent = dutil.icelandic());
         </script>
 </body>

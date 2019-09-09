@@ -6,7 +6,6 @@
     justify-content: space-between;
     align-items: flex-end;
     padding: 0 3px;
-    background: rgba(0,0,0,0.1);
 }
 input[name="_"] {
     height: 1px;
@@ -15,26 +14,52 @@ input[name="_"] {
     opacity: 0.1;
 }
 .tabbar>label {
-    padding: 2px 12px;
-    font-weight: 700;
-    flex: 0.25 1 auto;
-    color: #00807c;
-    text-align: center;
+    outline: none;
+    color: #5080ac;
+    padding: 0 12px 3px;
+    margin: 0 1px 0 0;
+    font-size: 1.2em;
+    overflow: hidden;
+    border-radius: 9px 9px 0 0;
+    position: relative;
     user-select: none;
-    background: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.3) 50%, white 50%);
-    background-size: 100% 200%;
-    background-position-y: 0;
-    transition: background-position-y 0.3s ease;
-    clip-path: polygon(0 100%,6px 0,calc(100% - 6px) 0,100% 100%);
-    -webkit-clip-path: polygon(0 100%,6px 0,calc(100% - 6px) 0,100% 100%);
+    transition: color .3s ease;
 }
+.container>h1:focus {
+    color: white;
+    transition-delay: 0.15s;
+  }
+[for=t0]::before,[for=t1]::before,[for=t2]::before,[for=t3]::before,[for=t4]::before,[for=t5]::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #00467c;
+transition: clip-path .3s ease-in-out;
+clip-path: inset( calc(100% - 4px) 50% 0 50% );
+z-index: -1;
+}
+[for=t0]:hover::before,[for=t1]:hover::before,[for=t2]:hover::before,
+[for=t3]:hover::before,[for=t4]:hover::before,[for=t5]:hover::before {
+clip-path: inset( calc(100% - 4px) 0 0 0 );
+}
+.container>h1:focus::before {
+    clip-path: inset( 0 0 0 0 );
+  }
+
+
+
+
 .tabbar>span {
     flex: 4 0 0;
 }
 .tw {
     position:relative;
     display: block;
-    min-height: 30vh;
+    overflow: hidden;
+    height: 15em;
 }
 .tw>slot {
     padding: 6px;
@@ -43,8 +68,12 @@ input[name="_"] {
 #t0:checked~div.tabbar>[for=t0],#t1:checked~div.tabbar>[for=t1],#t2:checked~div.tabbar>[for=t2],
 #t3:checked~div.tabbar>[for=t3],#t4:checked~div.tabbar>[for=t4],#t5:checked~div.tabbar>[for=t5],
 #t6:checked~div.tabbar>[for=t6] {
-    color: black;
-    background-position-y: 100%;
+    color: white;
+}
+#t0:checked~div.tabbar>[for=t0]::before,#t1:checked~div.tabbar>[for=t1]::before,#t2:checked~div.tabbar>[for=t2]::before,
+#t3:checked~div.tabbar>[for=t3]::before,#t4:checked~div.tabbar>[for=t4]::before,#t5:checked~div.tabbar>[for=t5]::before,
+#t6:checked~div.tabbar>[for=t6]::before {
+    clip-path: inset( 0 0 0 0 );
 }
 
 #t0~.tw>.t0,#t1~.tw>.t1,#t2~.tw>.t2,#t3~.tw>.t3,#t4~.tw>.t4,#t5~.tw>.t5,#t6~.tw>.t6 {
