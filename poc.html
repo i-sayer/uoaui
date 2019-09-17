@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POC</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" rel="stylesheet" type="text/css">
+    <style>
+        :root {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 20px;
+        }
+
+    </style>
+    <script>
+        function customReg(name, bits, construct){
+            // move this to js file, maybe pass modules required as attributes?
+            customElements.define(name,
+                class extends HTMLElement {
+                    constructor(){
+                        super();
+                        construct.call(this,bits);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <iframe src="mod__tab.html" frameborder="0" width="0" height="0"></iframe>
+    <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
+        <h2 slot="c0">Red</h2>
+        <div slot="c1"><h3>Green</h3><img src="https://i-sayer.github.io/skellington/images/albert.jpg" alt=""></div>
+        <h4 slot="c2">Buuve</h4>
+    </sh-tabs>
+    <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Goldfish">
+        <p slot="c0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit rerum officiis alias nemo dolorem et in ducimus necessitatibus nam dolor, iure, eligendi quod quibusdam laborum dicta earum? Enim, sequi totam!</p>
+        <p slot="c1">Vitae quaerat excepturi sit eveniet, eius laboriosam impedit. Sit modi nulla quibusdam quis mollitia sed voluptatibus aperiam, optio accusamus! Praesentium cum tenetur, incidunt asperiores rem ex cumque reprehenderit error minus!</p>
+        <p slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.</p>
+        <p slot="c3">Quaerat perferendis facere animi iusto similique nisi libero dolore dolorum, alias enim illo eligendi, maiores deleniti eaque harum nulla labore, explicabo amet sequi excepturi ducimus mollitia velit! Debitis, esse optio!</p>
+    </sh-tabs>
+            
+</body>
+</html>

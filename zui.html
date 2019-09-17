@@ -17,15 +17,16 @@ body {
   min-height: 100vh;
 }
 h1 {
+  padding-top: 16px;
   font-size: calc(18px + 4.5vmin);
   margin: 1.616rem 0;
 }
 .banner {
   text-align: center;
-  transition: background-position 0.6s ease;
-}
-.banner:hover {
-  background-position: 0, 3.3vw, -5vw, 7vw;
+  padding: 16px;
+  justify-content: space-around;
+  display: flex;
+  background-image: linear-gradient(#0080A7 64px, transparent 40px);
 }
 .kwrap {
   display: grid;
@@ -95,9 +96,6 @@ input:checked+label[for]::after {
   box-shadow: 0 0 35px inset #000;
   transform: scale(1);
 }
-.tbx.fullwidth {
-  grid-column: 1 / -1;
-}
 .tbx {
   display: flex;
   font-size: 1.25em;
@@ -140,7 +138,7 @@ input:checked+label[for]::after {
   outline: none;
   background-color: rgba(255,255,255,0.5);
 }
-[for="ch1"], p {
+.fullwidth, p {
   grid-column: 1 / -1;
 }
 #ab4~.tbx {
@@ -165,7 +163,7 @@ z-index: inherit;}
     </style>
 </head>
 <body>
-    <header class="banner"><h1>Page heading</h1></header>
+    <header class="banner"><img src="images/logo_blue_square.svg" width="200" /><h1>Form Name Here</h1></header>
     <div class="kwrap">
         <input id="ch1" type="checkbox">
         <label for="ch1" class="fullwidth">I'm a little teapot </label>
@@ -185,7 +183,7 @@ z-index: inherit;}
         <label class="tbx"><input type="text" required /><span>Email</span></label>
         <label class="tbx fullwidth"><input type="text" required /><span>Address</span></label>
     </div>
-    <script src="randomBarBg.js" />
+    <!-- <script src="randomBarBg.js" /> -->
 <script>
     // let w,i,wraps = document.querySelectorAll(".kwrap");
     // for (i=0; w=wraps[i]; i++)

@@ -1,0 +1,54 @@
+/* POC html module factory_in_an_iframe experiment */
+<template id="tabcomponentN">
+    <label for="t$"></label>
+    <input type="radio" id="t$" name="_" />
+    <slot class="t$" name="c$"></slot>
+</template>
+<template id="tabcomponent">
+    <link rel="stylesheet" type="text/css" href="tabbed.css">
+    <div class="tabbox">
+        <div class="tabbar">
+        </div>
+        <div class="tw"></div>
+    </div>
+</template>
+<script>
+if (window.parent && "customReg" in window.parent){
+    let bits = document.querySelectorAll("template");
+    window.parent.customReg("sh-tabs", bits, function (){
+        const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[1].content.cloneNode(true));
+        var par = this.shadowRoot.lastElementChild;
+        var bar = par.firstElementChild;
+        var wrp = par.lastElementChild;
+        this.dataset.tabs.split(";").forEach(function(n,i) {
+            var sub = document
+                .importNode(tabcomponentN.content, true);
+            var dx, d = sub.firstElementChild;
+            d.textContent = n;
+            var dests = [bar,par,wrp];
+            for (var j=0; d; j++) {
+                Array.from(d.attributes).forEach(x=>x.nodeValue = x.nodeValue.replace("$",i));
+                dx = d.nextElementSibling;
+                switch (j) {
+                    case 0:
+                    bar.appendChild(d);break;
+                    case 1:
+                    par.insertBefore(d, bar);
+                    d.onclick = changeHeight;
+                    break;
+                    case 2:
+                    wrp.appendChild(d);
+                }
+                // dests[j][(j==1)?"insertBefore":"appendChild"](d,bar);
+                d = dx;
+            }
+        });
+        function changeHeight(e){
+            let height = this.parentElement.querySelector("slot."+this.id).offsetHeight+24;
+            this.parentElement.style.height = height+"px";
+        }
+        bar.appendChild(document.createElement("span"));
+        par.querySelector("input[type='radio']").checked = true;
+    });
+}
+</script>

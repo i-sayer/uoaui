@@ -32,7 +32,7 @@
     <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
         <h2 slot="c0">Red</h2>
         <div slot="c1"><h3>Green</h3><img src="https://i-sayer.github.io/skellington/images/albert.jpg" alt=""></div>
-        <h2 slot="c2">Buuve</h2>
+        <h4 slot="c2">Buuve</h4>
     </sh-tabs>
     <sh-tabs id="nums" data-tabs="Canus lupus;Equus quagga;Acinonyx jubatis;Gnu"></sh-tabs>
     <script src="demoUtils.js" ></script>
@@ -73,7 +73,7 @@
                         }
                     });
                     function changeHeight(e){
-                        let height = this.parentElement.querySelector("slot."+this.id).offsetHeight;
+                        let height = this.parentElement.querySelector("slot."+this.id).offsetHeight+24;
                         this.parentElement.style.height = height+"px";
                     }
                     bar.appendChild(document.createElement("span"));
