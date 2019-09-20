@@ -8,22 +8,15 @@
     <style>
         :root {
             font-family: 'Open Sans', sans-serif;
-            font-size: 20px;
+            font-size: 16px;
+        }
+        body {
+            opacity: 0;
+            transition: opacity 400ms ease-in;
         }
 
     </style>
-    <script>
-        function customReg(name, bits, construct){
-            // move this to js file, maybe pass modules required as attributes?
-            customElements.define(name,
-                class extends HTMLElement {
-                    constructor(){
-                        super();
-                        construct.call(this,bits);
-                }
-            });
-        }
-    </script>
+    <script src="reggie.js"></script>
 </head>
 <body>
     <iframe src="mod__tab.html" frameborder="0" width="0" height="0"></iframe>
@@ -38,6 +31,20 @@
         <p slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.</p>
         <p slot="c3">Quaerat perferendis facere animi iusto similique nisi libero dolore dolorum, alias enim illo eligendi, maiores deleniti eaque harum nulla labore, explicabo amet sequi excepturi ducimus mollitia velit! Debitis, esse optio!</p>
     </sh-tabs>
-            
+<script>
+    let dynamic = document.createElement("sh-tabs");
+    let tabbles = ["Mr Big","Mr Small","Mr Wobbly"];
+    dynamic.id = "mrDynamo";
+    dynamic.dataset.tabs = tabbles.join(";");
+    tabbles.forEach((u,i)=>{
+        let chilln = document.createElement("h"+(i+1));
+        chilln.slot = "c"+i;
+        chilln.appendChild(document.createTextNode(u));
+        dynamic.appendChild(chilln);
+    });
+    document.body.appendChild(dynamic);
+
+    window.setTimeout(u=>document.body.style.opacity = 1, 350);
+</script>            
 </body>
 </html>
