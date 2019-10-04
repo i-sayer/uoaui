@@ -6,7 +6,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 0 3px;
 }
 input[name="_"] {
     height: 1px;
@@ -21,7 +20,8 @@ input[name="_"] {
     margin: 0 1px 0 0;
     font-size: 1.2em;
     overflow: hidden;
-    background-color: #f8f8f8;
+    /* background-color: #f8f8f8; */
+    background: linear-gradient( #f8f8f8 calc(100% - 13px), #d4d4d440);
     border-radius: 9px 9px 0 0;
     position: relative;
     z-index: 1;
@@ -62,10 +62,12 @@ clip-path: inset( calc(100% - 4px) 0 0 0 );
     position:relative;
     display: block;
     overflow: hidden;
-    height: 15em;
+    height: 100%;/*15em;/*max-content;*/
 }
 .tw>slot {
     padding: 6px;
+    background-color: rgba(255,255,255,0.8);
+    width: 100%;
     display: inline-block;
 }
 #t0:checked~div.tabbar>[for=t0],#t1:checked~div.tabbar>[for=t1],#t2:checked~div.tabbar>[for=t2],
