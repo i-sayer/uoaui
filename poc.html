@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Proof of concept, html components">
     <title>POC</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,900&amp;subset=all" rel="stylesheet" type="text/css">
     <style>
@@ -23,7 +24,7 @@
         h1 {
             font-size: 4em;
             text-align: center;
-            letter-spacing: 12px;
+            letter-spacing: 2.5px;
             font-weight: 900;
             color: rgba(0,0,0,0.75);
         }
@@ -34,8 +35,7 @@
     <script src="reggie.js"></script>
 </head>
 <body>
-    <h1>TIKA</h1>
-    <iframe src="mod__tab.html" frameborder="0" width="0" height="0"></iframe>
+    <iframe src="mod__tab.html" frameborder="0" width="0" height="0" aria-hidden="true"></iframe>
     <div id="mainContainer">
         <h2>Proof of concept, html components</h2>
         <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
@@ -53,18 +53,26 @@
     </div>
 <script>
     let dynamic = document.createElement("sh-tabs");
-    let tabbles = ["Mr Big","Mr Small","Mr Wobbly"];
+    let tabbles = ["Mr Small","Mr Wobbly","Mr Big"];
     dynamic.id = "mrDynamo";
     dynamic.dataset.tabs = tabbles.join(";");
     tabbles.forEach((u,i)=>{
-        let chilln = document.createElement("h"+(i+1));
+        let chilln = document.createElement("h"+(3-i));
         chilln.slot = "c"+i;
         chilln.appendChild(document.createTextNode(u));
         dynamic.appendChild(chilln);
     });
     mainContainer.appendChild(dynamic);
 
-    window.setTimeout(u=>document.body.style.opacity = 1, 100/*350*/);
+    window.setTimeout(u=>{
+        var ev = new CustomEvent("selectTab", {detail:{index: 1}});
+        hsl.selectTab(1);//dispatchEvent(ev);
+        fruit.selectTab(0);//dispatchEvent(ev);
+        dynamic.selectTab(2);//dispatchEvent(ev);
+        window.setTimeout(u=>{
+            document.body.style.opacity = 1;
+        }, 250);
+    }, 160);
 </script>            
 </body>
 </html>

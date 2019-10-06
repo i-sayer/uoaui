@@ -48,7 +48,19 @@ if (window.parent && "customReg" in window.parent){
             this.parentElement.style.height = height+"px";
         }
         bar.appendChild(document.createElement("span"));
-        par.querySelector("input[type='radio']").checked = true;
+        this.selectTab = function(ix){
+            console.log(this.id+": "+ix);
+            var dTab = this.shadowRoot.querySelectorAll("input[type='radio']")[ix];
+            dTab.click.call(dTab);
+        };
+        // this.addEventListener("selectTab", function(e){
+        //     console.log(e.target.id+": "+e.detail.index);
+        //     var firstTab = e.target.shadowRoot.querySelector("input[type='radio']");
+        //     firstTab.click.call(firstTab);
+        // });
+//        par.querySelector("input[type='radio']").checked = true;
+    }, function (){
+        // attribute change handler
     });
 }
 </script>
