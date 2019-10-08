@@ -48,7 +48,6 @@ if (window.parent && "customReg" in window.parent){
         function changeHeight(e){
             let height = this.parentElement.querySelector("slot."+this.id).offsetHeight+24;
             this.parentElement.style.height = height+"px";
-            //console.log(`${this.getRootNode().host.id} = ${this.id[1]}`);
             localStorage[this.getRootNode().host.id] = this.id[1];
         }
         bar.appendChild(document.createElement("span"));
