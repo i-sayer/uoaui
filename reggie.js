@@ -1,5 +1,5 @@
 function customReg(name, bits, construct, changehandler){
-    // move this to js file, maybe pass modules required as attributes?
+    // parent helper for components in iframe, defines element using iframe templates constructor callback
     customElements.define(name,
         class extends HTMLElement {
             constructor(){

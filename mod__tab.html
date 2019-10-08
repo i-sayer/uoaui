@@ -20,6 +20,7 @@ if (window.parent && "customReg" in window.parent){
         var par = this.shadowRoot.lastElementChild;
         var bar = par.firstElementChild;
         var wrp = par.lastElementChild;
+        //this.setAttribute("tabindex", "0");
         this.dataset.tabs.split(";").forEach(function(n,i) {
             var sub = document
                 .importNode(tabcomponentN.content, true);
@@ -31,13 +32,14 @@ if (window.parent && "customReg" in window.parent){
                 dx = d.nextElementSibling;
                 switch (j) {
                     case 0:
-                    bar.appendChild(d);break;
+                        bar.appendChild(d);
+                        break;
                     case 1:
-                    par.insertBefore(d, bar);
-                    d.onclick = changeHeight;
-                    break;
+                        par.insertBefore(d, bar);
+                        d.onclick = changeHeight;
+                        break;
                     case 2:
-                    wrp.appendChild(d);
+                        wrp.appendChild(d);
                 }
                 // dests[j][(j==1)?"insertBefore":"appendChild"](d,bar);
                 d = dx;
@@ -46,10 +48,11 @@ if (window.parent && "customReg" in window.parent){
         function changeHeight(e){
             let height = this.parentElement.querySelector("slot."+this.id).offsetHeight+24;
             this.parentElement.style.height = height+"px";
+            //console.log(`${this.getRootNode().host.id} = ${this.id[1]}`);
+            localStorage[this.getRootNode().host.id] = this.id[1];
         }
         bar.appendChild(document.createElement("span"));
         this.selectTab = function(ix){
-            console.log(this.id+": "+ix);
             var dTab = this.shadowRoot.querySelectorAll("input[type='radio']")[ix];
             dTab.click.call(dTab);
         };

@@ -99,45 +99,51 @@ input:checked+label[for]::after {
 .tbx {
   display: flex;
   font-size: 1.25em;
-  flex-direction: column-reverse;
+  flex-direction: row-reverse;
   flex-basis: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: baseline;
   position: relative;
   padding-bottom: 4px;
   overflow-x: hidden;
 }
-.tbx>input+span{
-  transform: translate(0, 1.616em);
-  transition: transform 0.3s ease;
+.tbx>input+span {
+  position: relative;
+  margin-right: 0.5em;
+  min-width: 100px;
+  text-align: right;
 }
 .tbx>input+span::after {
   content: "";
   width: calc(100% + 0.5em);
-  height: 4px;
-  background: linear-gradient(90deg, #00467c 50%, transparent 50%);
+  height: 1em;
+  background: linear-gradient(90deg, #FFFF0080 50%, transparent 50%);
   background-size: 204%;
   background-position-x: 100%;
   position: absolute;
   left: 0;
-  bottom: -4px;
+  top:  6px;
   transition: background-position 0.2s ease 0.1s;
 }
 .tbx>input:focus+span::after {
   background-position-x: 0%;
 }
-.tbx>input:focus+span,.tbx>input:valid+span{
-  transform: translate(0,0);
-}
 .tbx>input {
   font-size: inherit;
   width: calc(100% - 16px);
   padding: 6px;
-  border: none;
-  outline: none;
   background-color: rgba(255,255,255,0.5);
 }
+@media (max-width: 950px){
+  .tbx {
+    flex-direction: column-reverse;
+  }
+  .tbx>input+span {
+    text-align: left;
+  }
+}
+
 .fullwidth, p {
   grid-column: 1 / -1;
 }
@@ -159,6 +165,12 @@ z-index: inherit;}
 .multicol, .kwrap {
   max-width: 1200px;
   margin: auto;
+}
+@media (max-width: 766px){
+  .multicol {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
     </style>
 </head>

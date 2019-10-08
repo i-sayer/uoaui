@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TIQ-20</title>
+    <style>
+    :root {
+    font: 19px "Segoe UI", sans-serif;
+    color: rgba(0,0,0,0.66);
+    }
+    body {
+        margin: 0;
+    }
+    h1 {
+    padding-top: 16px;
+    font-size: calc(18px + 4.5vmin);
+    margin: 1.616rem 0;
+    }
+    .banner {
+    text-align: center;
+    justify-content: space-around;
+    display: flex;
+    background-image: linear-gradient(#0080A7 38px, transparent 40px);
+    }
+    #content>div>[for]::after{
+        content:"Agree";
+    }
+    #content>div>[for$="disagree"]::after{
+        content:"Disagree";
+    }
+    p, section {
+        max-width: 1200px;
+        margin: 0.5em auto;
+        padding: 0 6px;
+    }
+    p, .content {
+        transition: 0.4s ease;
+        transition-property: opacity, height, margin;
+    }
+    input[type=radio]{
+        opacity: 0;
+        position: absolute;
+        width:1px;
+        height:1px;
+    }
+    label {
+        position: relative;
+        padding-left: 1.3em;
+    }
+    input:checked+label::before {
+        background-color: cadetblue;
+    }
+    input+label::before {
+        content:"";
+        display: inline-block;
+        position: absolute;
+        top:0;
+        left:-2px;
+        width:0.7em;
+        height:0.7em;
+        padding: 2.5px;
+        border-radius: 50%;
+        border: 2px solid goldenrod;
+        -webkit-background-clip: padding-box;
+        background-clip: content-box;
+    }
+    #content, .content {
+        max-width: 1024px;
+        margin: 0 auto;
+        /* line-height: 2; */
+        background: linear-gradient(transparent 50%, #f8f8f8 50%);
+        background-repeat: repeat-y;
+        background-size: 100% 4em;
+        display: -ms-grid;
+        -ms-grid-columns: 6fr 1fr 1fr;
+        display: grid;
+        grid-template-columns: 6fr 1fr 1fr;
+    }
+    .q {
+        padding-left: 1em;
+        min-height: 2em;
+        }
+    @media screen and (max-width:760px){
+        #content, .content {
+            grid-template-columns: 1fr 1fr;
+            padding: 6px;
+        }
+        .q {
+            grid-column: 1 / 3;
+            text-align: left;
+            background-color: #f8f8f8;
+            border-top: 1px dotted;
+        }
+        div:not(.q){
+            text-align: center;
+            background-color: white;
+        }
+        .banner>img {
+            width: 100px;
+        }
+    }
+    .thanksanyway, #content {
+        opacity: 0;
+    }
+    .notophi>#content {
+        opacity: 0;
+    }
+    .yestophi>#content {
+        opacity: 1;
+    }
+    .yestophi>p,.yestophi>.content {
+        box-sizing: content-box;
+        opacity: 0;
+    }
+    .notophi>.thanksanyway {
+        opacity: 1;
+    }
+    .content>.q {
+        font-size: 1.2em;
+        font-weight: 700;
+    }
+    /* progress bar */
+    b {
+        display: block;
+    }
+    b>i {
+        display: inline-block;
+        height: 12px;
+        width: 10px;
+        background-color: rgba(255,25,25,0.2);
+        -webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+        clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+
+    }
+    b>i.done {
+        background-color: rgba(25,255,25,0.6);
+    }
+    .yestophi>#info {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding-bottom: 1em;
+        background: linear-gradient(white 90%, transparent);
+    }
+    </style>
+</head>
+
+<body>
+    <header class="banner"><img src="images/logo_blue_square.svg" width="160"><h1>TIQ-20</h1></header>
+    <section id="info">The TIQ-20 is a 20-item questionnaire that was developed at the University of Auckland to measure the impact of tophi in people with gout. A paper describing the development of the TIQ-20 questionnaire was published in Annals of the Rheumatic Diseases in 2014. This calculator is freely available. Information about patients and questionnaire responses entered into this calculator will not be stored by the University of Auckland.</section>
+    <p>Gouty tophi are nodules (lumps) of uric acid crystals underneath the skin. This questionnaire asks about how tophi may affect you.</p>
+
+    <div class="content">
+        <div class="q">Do you have tophi?</div>
+        <div><input id="preagree" name="Q" type="radio" value="1"><label for="preagree">Yes</label></div>
+        <div><input id="predisagree" name="Q" type="radio" value="0"><label for="predisagree">No</label></div>
+    </div>
+
+    <p class="thanksanyway">This questionnaire has been designed for people with gouty tophi. As you do not have tophi, you do not need to complete this questionnaire.</p>
+    <div id="content"></div>
+    <script>
+        preagree.onclick = function(e){
+            document.body.classList.add("yestophi");
+            document.body.classList.remove("notophi");
+            var el, i, removals = document.querySelectorAll("p, .content");
+            info.innerText = "Please indicate whether you agree or disagree with each of the 20 statements.";
+            var progbar = document.createElement("b");
+            for (i=0;i<20;i++)
+                progbar.appendChild(document.createElement("i"));
+            progbar.id = "progressBar";
+            info.appendChild(progbar);
+            for (i=0; el=removals[i]; i++){
+                el.style.height = el.offsetHeight+"px";
+            }
+            window.setTimeout(function (e){
+                for (i=0; el=removals[i]; i++){
+                    el.style.height = el.style.margin = "0";
+                }
+                info.scrollIntoView({ block: 'end',  behavior: 'smooth' });
+            },400);
+        }
+        predisagree.onclick = function(e){
+            document.body.classList.add("notophi");
+            document.body.classList.remove("yestophi");
+        };
+        var questions = [
+   {t:"My tophi are painful", w:1},
+   {t:"I feel pain when my tophi are knocked", w:1},
+   {t:"I have difficulty walking because of my tophi", w:1},
+   {t:"Bending down to the ground is difficult because of my tophi", w:1},
+   {t:"Writing is difficult because of my tophi", w:1},
+   {t:"I have difficulty feeding myself because of my tophi", w:1},
+   {t:"I have to make changes to my footwear because of my tophi", w:1},
+   {t:"I have to buy special shoes because of my tophi", w:1},
+   {t:"My tophi cause financial difficulty", w:1},
+   {t:"My tophi cause difficulty participating in family life", w:1},
+   {t:"I cannot play sport because of my tophi", w:1},
+   {t:"My tophi do not have any effect on my life", w:0},
+   {t:"I feel embarrassed because of my tophi", w:1},
+   {t:"My tophi cause others to feel uncomfortable", w:1},
+   {t:"My tophi are unpleasant to look at", w:1},
+   {t:"My life would be better if I could get rid of my tophi", w:1},
+   {t:"My tophi do not bother me", w:0},
+   {t:"My tophi have become infected", w:1},
+   {t:"I have visited my doctor for treatment of my tophi", w:1},
+   {t:"I have had surgery for my tophi", w:1}
+];
+        var lookupScore = [ 0.89, 1.77, 2.41, 2.89, 3.26, 3.61, 3.95, 4.24, 4.49, 4.76, 5.02, 5.28, 5.55, 5.86, 6.12, 6.40, 6.73, 7.10, 7.56, 8.19, 9.06];
+        var qel = content;//document.createElement("div");
+    questions.forEach(function(q,i){
+        var span = document.createElement("div");
+        span.textContent = q.t;
+        var lb1 = document.createElement("label");
+        var rb1 = document.createElement("input");
+        var di1 = document.createElement("div");
+        var lfor = "Q"+i;
+        lb1.setAttribute("for", rb1.id = lfor+"agree");
+        var lb2 = document.createElement("label");
+        var rb2 = document.createElement("input");
+        var di2 = document.createElement("div");
+        lb2.setAttribute("for", rb2.id = lfor+"disagree");
+        rb1.value = 0^q.w;
+        rb2.value = 1^q.w;
+        rb1.name = rb2.name = lfor;
+        rb1.type = rb2.type = "radio";
+        if ("msGridRow" in span.style){
+            di1.style.msGridRow = di2.style.msGridRow = span.style.msGridRow = i+1;
+            span.style.msGridColumn = 1;
+            di1.style.msGridColumn = 2;
+            di2.style.msGridColumn = 3;
+        }
+        span.className = "q";
+        qel.appendChild(span);
+        di1.appendChild(rb1);
+        di1.appendChild(lb1);
+        qel.appendChild(di1);
+        di2.appendChild(rb2);
+        di2.appendChild(lb2);
+        qel.appendChild(di2);
+        //content.appendChild(qel);
+    });
+    content.onclick = function(e){
+        var qix;
+        if (qix = e.srcElement.getAttribute("for"))
+            progressBar.children[parseInt(qix.slice(1,3),10)].classList.add("done");
+    }
+    </script>
+</body>
+
+</html>

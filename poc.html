@@ -43,7 +43,7 @@
             <div slot="c1"><h3>Green</h3><img src="https://i-sayer.github.io/skellington/images/albert.jpg" alt="Albert" width="220" height="299" loading="lazy"></div>
             <h4 slot="c2">Buuve</h4>
         </sh-tabs>
-        <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Goldfish">
+        <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Kiwi">
             <p slot="c0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit rerum officiis alias nemo dolorem et in ducimus necessitatibus nam dolor, iure, eligendi quod quibusdam laborum dicta earum? Enim, sequi totam!</p>
             <p slot="c1">Vitae quaerat excepturi sit eveniet, eius laboriosam impedit. Sit modi nulla quibusdam quis mollitia sed voluptatibus aperiam, optio accusamus! Praesentium cum tenetur, incidunt asperiores rem ex cumque reprehenderit error minus!</p>
             <p slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.</p>
@@ -52,27 +52,31 @@
         <h2>And a dynamically created example</h2>
     </div>
 <script>
-    let dynamic = document.createElement("sh-tabs");
+    // dynamically create an instance
     let tabbles = ["Mr Small","Mr Wobbly","Mr Big"];
-    dynamic.id = "mrDynamo";
-    dynamic.dataset.tabs = tabbles.join(";");
-    tabbles.forEach((u,i)=>{
-        let chilln = document.createElement("h"+(3-i));
-        chilln.slot = "c"+i;
-        chilln.appendChild(document.createTextNode(u));
-        dynamic.appendChild(chilln);
-    });
+    let dynamic = createE("sh-tabs", {id:"mrDynamo", "data-tabs":tabbles.join(";")});
+    tabbles.forEach((u,i)=>dynamic.appendChild(createE("h"+(3-i),{slot:"c"+i, textContent:u})));
     mainContainer.appendChild(dynamic);
 
-    window.setTimeout(u=>{
-        var ev = new CustomEvent("selectTab", {detail:{index: 1}});
-        hsl.selectTab(1);//dispatchEvent(ev);
-        fruit.selectTab(0);//dispatchEvent(ev);
-        dynamic.selectTab(2);//dispatchEvent(ev);
-        window.setTimeout(u=>{
+    document.onreadystatechange = function(e){
+        if (document.readyState=="complete"){
+            hsl.selectTab(localStorage["hsl"]||0);
+            fruit.selectTab(localStorage["fruit"]||0);
+            dynamic.selectTab(localStorage["mrDynamo"]||0);
             document.body.style.opacity = 1;
-        }, 250);
-    }, 160);
+        }
+    };
+    function createE(tag, attr){
+        var e = document.createElement(tag);
+        Object.keys(attr).forEach(u=>{
+            let ds = u.split("data-");
+            if (ds.length>1)
+                e.dataset[ds[1]] = attr[u];
+            else
+                e[u]=attr[u];
+        });
+        return e;
+    }
 </script>            
 </body>
 </html>
