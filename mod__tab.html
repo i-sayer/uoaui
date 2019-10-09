@@ -20,7 +20,10 @@ if (window.parent && "customReg" in window.parent){
         var par = this.shadowRoot.lastElementChild;
         var bar = par.firstElementChild;
         var wrp = par.lastElementChild;
-        //this.setAttribute("tabindex", "0");
+        this.setAttribute("tabindex", "0");
+        this.onfocus = function(u) { // pass focus on to shadowdom
+            this.shadowRoot.querySelector("input").focus();
+        }
         this.dataset.tabs.split(";").forEach(function(n,i) {
             var sub = document
                 .importNode(tabcomponentN.content, true);
