@@ -31,6 +31,17 @@
         h2, h3, h4, h5 {
             font-weight: 600;
         }
+        #hsl>div>h1 {
+            color: rgba(55,155,55,0.4);
+            margin: auto;
+            text-shadow: 2px 2px 2px rgba(26, 49, 26, 0.658);
+        }
+        #hsl>div {
+            min-height: 50vh;
+            display: flex;
+            background-image: url(https://i-sayer.github.io/skellington/images/sunrise2.jpg);
+            background-size: cover;
+        }
     </style>
     <script src="reggie.js"></script>
 </head>
@@ -40,7 +51,7 @@
         <h2>Proof of concept, html components</h2>
         <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
             <h2 slot="c0">Red</h2>
-            <div slot="c1"><h3>Green</h3><img src="https://i-sayer.github.io/skellington/images/sunrise2.jpg" alt="Sunrise" width="640" height="422" loading="lazy"></div>
+            <div slot="c1"><h1>Green</h1></div>
             <h4 slot="c2">Buuve</h4>
         </sh-tabs>
         <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Kiwi">
