@@ -19,7 +19,7 @@
             padding:1em;
             margin:2em auto;
             max-width:1024px;
-            background:#ccc;
+            background:#d4d4e080;
         }
         h1 {
             font-size: 4em;
@@ -39,8 +39,11 @@
         #hsl>div {
             min-height: 50vh;
             display: flex;
+            padding:0;
             background-image: url(https://i-sayer.github.io/skellington/images/sunrise2.jpg);
             background-size: cover;
+            background-position-y: bottom;
+            width: calc(100% - 12px);
         }
     </style>
     <script src="reggie.js"></script>
@@ -88,6 +91,35 @@
         });
         return e;
     }
+    function getDates(...args){
+  var goodDates = [];
+  let isleap = y => ((y%4)==0 && (y%100) != 0)||(y%400)==0;
+  let mxd, daysinmonth = [0,31,28,31,30,31,30,31,31,30,31,30,31];
+
+  args.forEach(u=>{
+    if (u.match(/\d{4,4}-\d{2,2}-\d{2,2}/)){
+      let tdate = new Date(u);
+      while (true){
+          if (isNaN(tdate))
+              break;
+          let parts=u.split("-").map(u=>parseInt(u));
+          if(parts.length!=3)
+              break;
+          if (parts[1]<1 || parts[1]>12)
+              break;
+          daysinmonth[2]=isleap(parts[0])?29:28;
+          if (parts[2]>daysinmonth[parts[1]])
+              break;
+          goodDates.push(tdate.getTime());
+          break;
+      }
+    }
+  });
+
+  goodDates.sort();
+
+  return goodDates.length?goodDates:"NA";
+}
 </script>            
 </body>
 </html>
