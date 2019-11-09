@@ -1,0 +1,52 @@
+<body>
+<template id="datepick">
+    <link rel="stylesheet" type="text/css" href="sh-datepick.css">
+    <div class="wrapper">
+        <div class="datepicker-main">
+            <header>
+                <svg viewBox="0 0 24 24" width="32" style="float:right" data-icon="calendar-range"></svg>
+                <h5>1999</h5>
+                <h2>December 31</h2>
+            </header>
+            <nav>
+                <svg viewBox="0 0 24 24" width="24" data-icon="chevron-left"></svg>
+                <span>December</span>
+                <svg viewBox="0 0 24 24" width="24" data-icon="chevron-right"></svg>
+            </nav>
+            <section><b>SU</b><b>MO</b><b>TU</b><b>WE</b><b>TH</b><b>FR</b><b>SA</b></section>
+            <main>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            </main>
+        </div>
+    </div>
+</template>
+<script>
+/* Date Picker module based on material design */
+if (window.parent && "customReg" in window.parent){
+    let bits = document.querySelectorAll("template");
+    window.parent.customReg("sh-datepick", bits, function (){
+        const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
+        Array.from(this.shadowRoot.querySelectorAll("main>b")).slice(6, 37).forEach((b,i)=>b.textContent=i+1);
+        const icons = this.shadowRoot.querySelectorAll("svg");
+        for (const icon of icons) {
+            const p = window.parent.document.getElementById(icon.dataset.icon);
+            if (p)
+                icon.appendChild(p.cloneNode(true));
+        }
+        // this.selectTab = function(ix){
+        //     var dTab = this.shadowRoot.querySelectorAll("input[type='radio']")[ix];
+        //     dTab.click.call(dTab);
+        // };
+    }, function (e){
+        // connected handler
+        // var dat = this;
+        // setTimeout(e=>dat.selectTab.call(dat,localStorage[this.id]||0),25);
+    });
+}
+</script>
+</body>

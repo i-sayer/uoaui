@@ -60,7 +60,7 @@ if (window.parent && "customReg" in window.parent){
     }, function (e){
         // connected handler
         var dat = this;
-        setTimeout(e=>dat.selectTab.call(dat,localStorage[this.id]||0),9);
+        setTimeout(e=>dat.selectTab.call(dat,localStorage[this.id]||0),25);
     });
 }
 </script>

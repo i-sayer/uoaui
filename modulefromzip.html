@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get fragments</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,800&amp;subset=all" rel="stylesheet" type="text/css">
+    <style>
+        :root {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+        }
+        body {
+            opacity: 0;
+            transition: opacity 250ms ease-in;
+        }
+        #mainContainer {
+            padding:1em;
+            margin:2em auto;
+            max-width:1024px;
+            background:#d4d4e080;
+        }
+        h1 {
+            font-size: 4em;
+            text-align: center;
+            letter-spacing: 2.5px;
+            font-weight: 900;
+            color: rgba(0,0,0,0.75);
+        }
+        h2, h3, h4, h5 {
+            font-weight: 600;
+        }
+        #hsl>div>h1 {
+            color: rgba(55,155,55,0.4);
+            margin: auto;
+            text-shadow: 2px 2px 2px rgba(26, 49, 26, 0.658);
+        }
+        #hsl>div[slot=c1] {
+            min-height: 50vh;
+            display: flex;
+            padding:0;
+            background-image: url(https://i-sayer.github.io/skellington/images/sunrise2.jpg);
+            background-size: cover;
+            background-position-y: bottom;
+            width: calc(100% - 12px);
+        }
+    </style>
+    <script src="reggie.js"></script>
+</head>
+<body>
+    <svg width="0" height="0" id="svgIcons">
+        <defs>
+            <path id="calendar-range" alt="calendar"
+                d="M9,10H7V12H9V10M13,10H11V12H13V10M17,10H15V12H17V10M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z">
+            </path>
+            <path id="chevron-right"
+                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z">
+            </path>
+            <path id="chevron-left"
+                d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z">
+            </path>
+        </defs>
+    </svg>
+        <div id="mainContainer">
+        <h1>read mymodules.zip</h1>
+        <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
+            <h2 slot="c0">Red</h2>
+            <div slot="c1"><h1>Green</h1></div>
+            <div slot="c2"><h2>ブルー</h4><p><strong>Material Transition function:</strong> cubic-bezier(.4,0,.2,1);</p></div>
+        </sh-tabs>
+        <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Kiwi">
+            <p slot="c0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit rerum officiis alias nemo dolorem et in ducimus necessitatibus nam dolor, iure, eligendi quod quibusdam laborum dicta earum? Enim, sequi totam!</p>
+            <p slot="c1"><sh-datepick></sh-datepick>Vitae quaerat excepturi sit eveniet, eius laboriosam impedit. Sit modi nulla quibusdam quis mollitia sed voluptatibus aperiam, optio accusamus! Praesentium cum tenetur, incidunt asperiores rem ex cumque reprehenderit error minus!</p>
+            <p slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.</p>
+            <p slot="c3">Quaerat perferendis facere animi iusto similique nisi libero dolore dolorum, alias enim illo eligendi, maiores deleniti eaque harum nulla labore, explicabo amet sequi excepturi ducimus mollitia velit! Debitis, esse optio!</p>
+        </sh-tabs>
+    </div>
+    <script>
+        fetch("mymodules.zip", {method:"GET", credentials:"same-origin"})
+            .then(response=>response.arrayBuffer())
+            .then(data=>{
+                var EOCD = data.byteLength - 22;
+                var vw = new Uint8Array(data);
+                const files = [];
+
+                var sig = getInteger(vw.subarray(EOCD,EOCD+4));
+                if (sig != 0x6054B50)
+                    return console.log("error locating EOCD");
+                var i, numrecs = getInteger(vw.subarray(EOCD + 8, EOCD + 10));
+                var CD = getInteger(vw.subarray(EOCD + 16, EOCD + 20));
+                if (getString(vw.subarray(CD, CD + 4)) != "PK\01\02")
+                    return console.log("error locating CD");
+                for (i = 0; i < numrecs; i++) {
+                    // get each entry
+                    var filenamelen = getInteger(vw.subarray(CD + 28, CD + 30));
+                    var extralen = getInteger(vw.subarray(CD + 30, CD + 32));
+                    var filename = getString(vw.subarray(CD + 46, CD + 46 + filenamelen));
+                    var offset = getInteger(vw.subarray(CD + 42, CD + 46));
+                    extralen = getInteger(vw.subarray(offset + 28, offset + 30));
+                    var compressedSize = getInteger(vw.subarray(CD + 20, CD + 24));
+                    var fdata = getString(vw.subarray(offset + 30 + filenamelen + extralen, offset + 30 + filenamelen + extralen + compressedSize));
+                    if (vw[CD + 10] != 0)
+                        return console.log("compressed files not allowed");//fdata = RawDeflate.inflate(fdata);
+                    files.push({ name: filename, data: fdata });
+                    CD += (82 + filenamelen); // was 46
+                }
+                // ifrm.srcdoc = files[0].data;
+                var ifrm, ifrms = [];
+                for (const module of files) {
+                    ifrm = document.createElement("iframe");
+                    ifrm.frameBorder = ifrm.width = ifrm.height = "0";
+                    ifrm.ariaHidden="true";
+                    ifrm.srcdoc = module.data;
+                    document.body.appendChild(ifrm);
+                    ifrms.push(ifrm);
+                }
+                setTimeout(u=>{
+                document.body.style.opacity = 1;
+                // for (ifrm of ifrms)
+                //     document.body.removeChild(ifrm);
+                }, 90);
+            })
+            function getString(a) {
+                return Array.prototype.slice.call(a).map( function (x) { return String.fromCharCode(x) }).join("");
+            }
+            function getInteger(b) {
+                for (var i = 0, result = 0; i < b.byteLength; i++)
+                    result += b[i] << (i * 8);
+                return result;
+            }
+    </script>
+</body>
+</html>

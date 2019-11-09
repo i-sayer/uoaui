@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Proof of concept, html components">
+    <title>POCE</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,800&amp;subset=all" rel="stylesheet" type="text/css">
+    <style>
+        :root {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+        }
+        body {
+            opacity: 0;
+            transition: opacity 250ms ease-in;
+        }
+        #mainContainer {
+            padding:1em;
+            margin:2em auto;
+            max-width:1024px;
+            background:#d4d4e080;
+        }
+        h1 {
+            font-size: 4em;
+            text-align: center;
+            letter-spacing: 2.5px;
+            font-weight: 900;
+            color: rgba(0,0,0,0.75);
+        }
+        h2, h3, h4, h5 {
+            font-weight: 600;
+        }
+        #hsl>div>h1 {
+            color: rgba(55,155,55,0.4);
+            margin: auto;
+            text-shadow: 2px 2px 2px rgba(26, 49, 26, 0.658);
+        }
+        #hsl>div {
+            min-height: 50vh;
+            display: flex;
+            padding:0;
+            background-image: url(https://i-sayer.github.io/skellington/images/sunrise2.jpg);
+            background-size: cover;
+            background-position-y: bottom;
+            width: calc(100% - 12px);
+        }
+    </style>
+    <script src="reggie.js"></script>
+</head>
+<body>
+    <svg viewBox="0 0 24 24" width="0" height="0" id="svgIcons">
+        <defs>
+            <path id="calendar-range" alt="calendar"
+                d="M9,10H7V12H9V10M13,10H11V12H13V10M17,10H15V12H17V10M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z">
+            </path>
+            <path id="chevron-right"
+                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z">
+            </path>
+            <path id="chevron-left"
+                d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z">
+            </path>
+        </defs>
+    </svg>
+    <iframe src="sh-datepick.html" frameborder="0" width="0" height="0" aria-hidden="true"></iframe>
+    <div id="mainContainer">
+        <h2>Proof of concept, html components<svg viewBox="0 0 24 24" width="24"><use xlink:href="#chevron-left"></use></svg></h2>
+        <sh-datepick></sh-datepick>
+    </div>
+<script>
+    // dynamically create an instance
+    // let tabbles = ["Mr Small","Mr Wobbly","Mr Big"];
+    // let dynamic = createE("sh-tabs", {id:"mrDynamo", "data-tabs":tabbles.join(";")});
+    // tabbles.forEach((u,i)=>dynamic.appendChild(createE("h"+(3-i),{slot:"c"+i, textContent:u})));
+    // mainContainer.appendChild(dynamic);
+
+    document.onreadystatechange = function(e){
+        if (document.readyState=="complete"){
+            // hsl.selectTab(localStorage["hsl"]||0);
+            // fruit.selectTab(localStorage["fruit"]||0);
+            // dynamic.selectTab(localStorage["mrDynamo"]||0);
+            document.body.style.opacity = 1;
+        }
+    };
+    function createE(tag, attr){
+        var e = document.createElement(tag);
+        Object.keys(attr).forEach(u=>{
+            let ds = u.split("data-");
+            if (ds.length>1)
+                e.dataset[ds[1]] = attr[u];
+            else
+                e[u]=attr[u];
+        });
+        return e;
+    }
+
+</script>            
+</body>
+</html>
