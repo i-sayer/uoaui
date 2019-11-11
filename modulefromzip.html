@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get fragments</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,800&amp;subset=all" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,600,800&amp;subset=all" rel="stylesheet" type="text/css">
     <style>
         :root {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 16px;
         }
         body {
@@ -18,10 +18,10 @@
             padding:1em;
             margin:2em auto;
             max-width:1024px;
-            background:#d4d4e080;
+            background:#8f8f8f80;
         }
         h1 {
-            font-size: 4em;
+            font-size: calc(16px + 12 * ((100vw - 320px) / 680));
             text-align: center;
             letter-spacing: 2.5px;
             font-weight: 900;
@@ -34,6 +34,9 @@
             color: rgba(55,155,55,0.4);
             margin: auto;
             text-shadow: 2px 2px 2px rgba(26, 49, 26, 0.658);
+        }
+        #fruit>p[slot="c3"] {
+            min-height: 340px;
         }
         #hsl>div[slot=c1] {
             min-height: 50vh;
@@ -70,10 +73,11 @@
         </sh-tabs>
         <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Kiwi">
             <p slot="c0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit rerum officiis alias nemo dolorem et in ducimus necessitatibus nam dolor, iure, eligendi quod quibusdam laborum dicta earum? Enim, sequi totam!</p>
-            <p slot="c1"><sh-datepick></sh-datepick>Vitae quaerat excepturi sit eveniet, eius laboriosam impedit. Sit modi nulla quibusdam quis mollitia sed voluptatibus aperiam, optio accusamus! Praesentium cum tenetur, incidunt asperiores rem ex cumque reprehenderit error minus!</p>
+            <p slot="c1">Vitae quaerat excepturi sit eveniet, eius laboriosam impedit. Sit modi nulla quibusdam quis mollitia sed voluptatibus aperiam, optio accusamus! Praesentium cum tenetur, incidunt asperiores rem ex cumque reprehenderit error minus!</p>
             <p slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.</p>
-            <p slot="c3">Quaerat perferendis facere animi iusto similique nisi libero dolore dolorum, alias enim illo eligendi, maiores deleniti eaque harum nulla labore, explicabo amet sequi excepturi ducimus mollitia velit! Debitis, esse optio!</p>
+            <p slot="c3"><sh-datepick></sh-datepick>Needs some work, tab slots overlay each other so interactive elements only work in last slot. Maybe disable pointer events for :not(active)?</p>
         </sh-tabs>
+        <sh-datepick></sh-datepick>
     </div>
     <script>
         fetch("mymodules.zip", {method:"GET", credentials:"same-origin"})

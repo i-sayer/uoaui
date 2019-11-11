@@ -48,7 +48,7 @@ z-index: -1;
 }
 [for=t0]:hover::before,[for=t1]:hover::before,[for=t2]:hover::before,
 [for=t3]:hover::before,[for=t4]:hover::before,[for=t5]:hover::before {
-clip-path: inset( calc(100% - 4px) 0 0 0 );
+clip-path: inset( calc(100% - 2px) 0 0 0 );
 }
 .container>h1:focus::before {
     -webkit-clip-path: inset( 0 0 0 0 );
@@ -89,7 +89,7 @@ clip-path: inset( calc(100% - 4px) 0 0 0 );
     position: absolute;
     top:0;
     transform: translateX(-5em);
-    transition: 0.6s ease;
+    transition: 0.6s cubic-bezier(.4,0,.2,1);
     transition-property: transform, opacity;
 }
 #t0:checked~.tw>.t0,#t1:checked~.tw>.t1,#t2:checked~.tw>.t2,#t3:checked~.tw>.t3,

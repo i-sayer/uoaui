@@ -2,15 +2,16 @@
 <template id="datepick">
     <link rel="stylesheet" type="text/css" href="sh-datepick.css">
     <div class="wrapper">
+        <input id="datetb" onfocus="this.classList.add('open')" type="text"/>
         <div class="datepicker-main">
             <header>
-                <svg viewBox="0 0 24 24" width="32" style="float:right" data-icon="calendar-range"></svg>
-                <h5>1999</h5>
-                <h2>December 31</h2>
+                <svg viewBox="0 0 24 24" width="20" style="float:right" data-icon="calendar-range"></svg>
+                <h4>1999</h4>
+                <h2>Wednesday 31</h2>
             </header>
             <nav>
                 <svg viewBox="0 0 24 24" width="24" data-icon="chevron-left"></svg>
-                <span>December</span>
+                <h4>December</h4>
                 <svg viewBox="0 0 24 24" width="24" data-icon="chevron-right"></svg>
             </nav>
             <section><b>SU</b><b>MO</b><b>TU</b><b>WE</b><b>TH</b><b>FR</b><b>SA</b></section>
@@ -27,11 +28,35 @@
 </template>
 <script>
 /* Date Picker module based on material design */
-if (window.parent && "customReg" in window.parent){
+if (window.parent && "customRegInput" in window.parent){
     let bits = document.querySelectorAll("template");
-    window.parent.customReg("sh-datepick", bits, function (){
+    window.parent.customRegInput("sh-datepick", bits, function (){
         const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
-        Array.from(this.shadowRoot.querySelectorAll("main>b")).slice(6, 37).forEach((b,i)=>b.textContent=i+1);
+        this.workdate = new Date();
+        const year = this.workdate.getFullYear();
+        const today = this.workdate.getDate();
+        const days = new Date(year, this.workdate.getMonth()+1, 0).getDate();
+        this.shadowRoot.querySelector("nav>h4").textContent = this.workdate.toLocaleString('default',{month: 'long'});
+        this.shadowRoot.querySelector("header>h4").textContent = year ;
+        this.shadowRoot.querySelector("header>h2").textContent = `${this.workdate.toLocaleString('default',{weekday: 'long'})} ${today}` ;
+        this.workdate.setDate(1);
+        this.shadowRoot.querySelector(".datepicker-main").onclick = function (e) {
+            this.previousElementSibling.classList.add("open");
+            console.log(this.tagName);
+        }
+        const n1 = this.workdate.getDay(), n2 = n1 + days;
+        Array.from(this.shadowRoot.querySelectorAll("main>b")).slice(n1, n2).forEach((b,i)=>{
+            b.textContent=i+1;
+            b.onclick = function(e){
+                let inputel = e.target.closest(".datepicker-main").previousElementSibling;
+                this.getRootNode().host.workdate.setDate(e.target.textContent>>0);
+                inputel.value = this.getRootNode().host.workdate.toLocaleString('en-NZ',{day: 'numeric', month:'long', year:'numeric'});
+                inputel.classList.remove("open");
+                e.stopPropagation();
+            };
+            if ((i+1)==today)
+                b.classList.add("today");
+        });
         const icons = this.shadowRoot.querySelectorAll("svg");
         for (const icon of icons) {
             const p = window.parent.document.getElementById(icon.dataset.icon);
