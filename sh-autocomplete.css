@@ -1,0 +1,39 @@
+.wrapper {
+    position: relative;
+}
+.wrapper>input {
+    width:216px;
+    padding: 4px;
+}
+.autocomplete-main {
+    position: absolute;
+    left:0;
+    top:0;
+    width: 252px;
+    border: 1px solid #ccc;
+    background-color: floralwhite;
+    -webkit-clip-path: polygon(calc(100% - 27px) 0, 100% 0, 100% 27px, calc(100% - 27px) 27px);
+    clip-path: polygon(calc(100% - 27px) 0, 100% 0, 100% 27px, 0 27px, 0 27px, calc(100% - 27px) 27px);
+    transition: 0.5s cubic-bezier(.4,0,.2,1);
+    transition-property: clip-path, -webkit-clip-path;
+}
+input.open+.autocomplete-main {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(calc(100% - 27px) 0, 100% 0, 100% 100%, 0 100%, 0 27px, calc(100% - 27px) 27px);
+}
+
+.listwrap {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+header {
+    background-color: dodgerblue;
+    color: white;
+    padding: 13px;
+}
+header>svg {
+    fill: white;
+    float: right;
+    margin: -13px;
+}

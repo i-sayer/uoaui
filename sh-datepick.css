@@ -2,7 +2,8 @@
     position: relative;
 }
 .wrapper>input {
-    width:245px;
+    width:216px;
+    padding: 4px;
 }
 .datepicker-main {
     position: absolute;
@@ -11,13 +12,15 @@
     width: 252px;
     border: 1px solid #ccc;
     background-color: floralwhite;
-    clip-path: inset(6px 6px calc(100% - 28px) calc(100% - 28px));
-    transform: translateY(-7px);
+    -webkit-clip-path: polygon(calc(100% - 27px) 0, 100% 0, 100% 27px, calc(100% - 27px) 27px);
+    clip-path: inset(0 0 calc(100% - 27px) calc(100% - 28px));
     transition: 0.5s cubic-bezier(.4,0,.2,1);
-    transition-property: clip-path;
+    transition-property: clip-path, -webkit-clip-path;
 }
 input.open+.datepicker-main {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     clip-path: inset(0 0 0 0);
+    z-index: 1;
 }
 
 header {
@@ -28,9 +31,42 @@ header {
 nav>h4, header>h4, header>h2 {
     margin: 6px;
 }
-header>svg>path {
-    fill: #FFF;
+nav {
+    font-size: 1.4rem;
 }
+nav>svg>path {
+    fill: currentColor;
+}
+.flipper>svg>path {
+    fill: #FFF;
+    transition: fill 0.2s;
+}
+.toggle {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    right:0.5px;
+    top:0.5px;
+    cursor: pointer;
+}
+.flipper{
+    position:relative;
+    height:100%;
+    width:100%;
+}
+.flipper>svg {
+    position: absolute;
+}
+.flipper>svg:last-child>path{
+    fill: transparent;
+}
+input.open+.datepicker-main .flipper>svg:last-child>path {
+    fill: #fff;
+}
+input.open+.datepicker-main .flipper>svg:first-child>path {
+    fill: transparent;
+}
+
 section, main {
     display: grid;
     grid-template-columns: repeat(7, 33.3px);
@@ -47,8 +83,19 @@ main>b {
     font-weight: normal;
     padding: 8px 8px 8px 0;
 }
+main>b:not(:empty), header>svg {
+    cursor: pointer;
+}
 nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 6px;
+}
+nav>*:hover{
+    background-color: rgba(128,64,0,0.25);
+    cursor: pointer;
+}
+nav>h4 {
+    padding: 4px;
 }

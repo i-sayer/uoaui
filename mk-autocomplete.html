@@ -1,0 +1,103 @@
+<template id="autocomplete">
+    <div class="wrapper">
+        <input id="actb" onfocus="this.classList.add('open')" type="text" autocomplete="off" />
+        <div class="autocomplete-main">
+            <header><svg viewBox="0 0 24 24" width="35" data-icon="magnify"></svg></header>
+            <div class="listwrap">
+                <slot name="list">
+            </div>
+            </slot>
+        </div>
+    </div>
+<style>
+.wrapper {
+    position: relative;
+}
+.wrapper:focus-within {
+    z-index: 1;
+}
+.wrapper>input {
+    width: calc(100% - 32px);
+    padding: 4px;
+    position: relative;
+    font-size: 1rem;
+}
+.autocomplete-main {
+    position: absolute;
+    left:0;
+    top:0;
+    width: 100%;
+    border: 1px solid var(--color-medium, #ccc);
+    background-color: var(--color-light-1, white);
+    -webkit-clip-path: polygon(calc(100% - 36px) 0, 100% 0, 100% 35px, calc(100% - 36px) 35px);
+    clip-path: polygon(calc(100% - 36px) 0, 100% 0, 100% 35px, 0 35px, 0 35px, calc(100% - 36px) 35px);
+    transition: 0.5s cubic-bezier(.4,0,.2,1);
+    transition-property: clip-path, -webkit-clip-path;
+}
+input.open+.autocomplete-main {
+    -webkit-clip-path: polygon(calc(100% - 36px) 0, 100% 0, 100% 100%, 0 100%, 0 35px, calc(100% - 36px) 35px);
+    clip-path: polygon(calc(100% - 36px) 0, 100% 0, 100% 100%, 0 100%, 0 35px, calc(100% - 36px) 35px);
+}
+
+.listwrap {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+header {
+    background-color: var(--color-primary, darkblue);
+    color: var(--color-light-1, white);
+    padding: 17px;
+}
+header>svg {
+    fill: var(--color-light-1, white);
+    float: right;
+    margin: -17px;
+}
+</style>
+            
+</template>
+<script>
+/* Autocomplete module based on material design */
+if (window.parent && "customReg" in window.parent){
+    let bits = document.querySelectorAll("template#autocomplete");
+    window.parent.customReg("sh-autocomplete", bits, function (){
+        const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
+        this.shadowRoot.querySelector(".autocomplete-main").onclick = function (e) {
+            let pe=this.previousElementSibling;
+            if (pe.classList.contains("open")){
+                pe.classList.remove("open");
+            } else {
+                pe.classList.add("open");
+            }
+        }
+        var inputel = this.shadowRoot.querySelector("input");
+        var slot = this.shadowRoot.querySelector("slot[name=list");
+        var that = this;
+        inputel.oninput = function(e){
+            var txt = this.value.toUpperCase();
+            var i, card, cards = this.nextElementSibling.querySelector("slot[name=list]").assignedNodes()[0].children;
+            if (txt=="") {
+                for(i=0; card=cards[i]; i++)
+                    card.style.display = "none";
+            } else {
+                for (i=0; card=cards[i]; i++){
+                    if (card.textContent.toUpperCase().indexOf(txt)>=0)
+                        card.style.display = "block";
+                    else
+                        card.style.display = "none";
+                }
+            }
+        }
+        const icons = this.shadowRoot.querySelectorAll("svg");
+        for (const icon of icons) {
+            const p = window.parent.document.getElementById(icon.dataset.icon);
+            if (p)
+                icon.appendChild(p.cloneNode(true));
+        }
+        // end of construct()
+    }, function (e){
+        //
+    });
+}
+</script>

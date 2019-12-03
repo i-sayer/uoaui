@@ -1,0 +1,91 @@
+<template id="ranch">
+    <div class="outer">
+        <slot class="p1" name="c0"></slot>
+        <div class="bar" draggable="true"></div>
+        <slot class="p2" name="c1"></slot>
+    </div>
+    <style>
+    .outer {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    height: 100%;
+    }
+    .outer.vertical {
+        flex-direction: column;
+    }
+    .p1, .p2 {
+    flex: 1 1 50%;
+    box-sizing: border-box;
+    background-color: #bbb;
+    transition: flex-basis 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    padding: 1rem;
+    column-width: 360px;
+    }
+    .bar {
+    flex: 0 0 5px;
+    cursor: ew-resize;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg,#666,#999,#666);
+    justify-content: center;
+    }
+    .bar::before {
+    content:"";
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: #333;
+    box-shadow: 0 6px 0, 0 -6px 0;
+    }
+    .vertical>.bar {
+        cursor: ns-resize;
+        background: linear-gradient(#666,#999,#666);
+    }
+    .vertical>.bar::before {
+    box-shadow: 6px 0 0, -6px 0 0;
+    }
+    </style>
+</template>
+<script>
+/* ranch slider style panel pair  */
+if (window.parent && "customReg" in window.parent){
+    let bits = document.querySelectorAll("template#ranch");
+    window.parent.customReg("mk-ranch", bits, function (){
+        const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
+        if (this.classList.contains("vertical"))
+            this.shadowRoot.querySelector(".outer").classList.add("vertical");
+        function drag_start(ev){
+            ev.dataTransfer.setData("wtf?", "mozilla!");
+        }
+        this.shadowRoot.querySelector(".bar").ondragstart = drag_start;
+        function dragover_handler(ev) {
+            ev.preventDefault();
+            ev.dataTransfer.dropEffect = "move";
+        }
+        function drop_handler(ev) {
+            ev.preventDefault();
+            let par = this.parentElement;
+            let opar = this.offsetParent;
+            let splitAt = ev.offsetX + this.offsetLeft;
+            let totalSpan = opar.offsetWidth;
+            if (opar.classList.contains("vertical")) {
+                splitAt = ev.offsetY + this.offsetTop;
+                totalSpan = opar.offsetHeight;
+            }
+            console.log(`total span ${totalSpan}, splitAt ${splitAt}`);
+            par.firstElementChild.style.flexBasis = `${splitAt}px`;
+            par.lastElementChild.style.flexBasis = `${totalSpan-splitAt}px`;
+        }
+        Array.from(this.shadowRoot.querySelectorAll(".p1,.p2"), u=>u.assignedElements()[0])
+            .forEach(function(u){
+                u.ondragover = dragover_handler;
+                u.ondrop = drop_handler
+            });
+        // end of construct()
+    }, function (e){
+        //
+    });
+}
+</script>

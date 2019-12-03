@@ -42,17 +42,21 @@ height: 100%;
 background-color: rgba(0,40,80,0.5);
 transition: .3s cubic-bezier(.4,0,.2,1);
 transition-property: clip-path, -webkit-clip-path;
--webkit-clip-path: inset( calc(100% - 2px) 50% 0 50% );
-clip-path: inset( calc(100% - 2px) 50% 0 50% );
+-webkit-clip-path: polygon( 50% calc(100% - 2px), 50% calc(100% - 2px), 50% 100%, 50% 100% );
+clip-path: polygon( 50% calc(100% - 2px), 50% calc(100% - 2px), 50% 100%, 50% 100% );
+/*clip-path: inset( calc(100% - 2px) 50% 0 50% );*/
 z-index: -1;
 }
 [for=t0]:hover::before,[for=t1]:hover::before,[for=t2]:hover::before,
 [for=t3]:hover::before,[for=t4]:hover::before,[for=t5]:hover::before {
-clip-path: inset( calc(100% - 2px) 0 0 0 );
+/*clip-path: inset( calc(100% - 2px) 0 0 0 );*/
+-webkit-clip-path: polygon( 0 calc(100% - 2px), 100% calc(100% - 2px), 100% 100%, 0 100%);
+clip-path: polygon( 0 calc(100% - 2px), 100% calc(100% - 2px), 100% 100%, 0 100%);
 }
 .container>h1:focus::before {
-    -webkit-clip-path: inset( 0 0 0 0 );
-    clip-path: inset( 0 0 0 0 );
+    -webkit-clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
+    /*clip-path: inset( 0 0 0 0 );*/
+    clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
   }
 
 
@@ -81,7 +85,9 @@ clip-path: inset( calc(100% - 2px) 0 0 0 );
 #t0:checked~div.tabbar>[for=t0]::before,#t1:checked~div.tabbar>[for=t1]::before,#t2:checked~div.tabbar>[for=t2]::before,
 #t3:checked~div.tabbar>[for=t3]::before,#t4:checked~div.tabbar>[for=t4]::before,#t5:checked~div.tabbar>[for=t5]::before,
 #t6:checked~div.tabbar>[for=t6]::before {
-    clip-path: inset( 0 0 0 0 );
+    /* clip-path: inset( 0 0 0 0 ); */
+    -webkit-clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
+    clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
 }
 
 #t0~.tw>.t0,#t1~.tw>.t1,#t2~.tw>.t2,#t3~.tw>.t3,#t4~.tw>.t4,#t5~.tw>.t5,#t6~.tw>.t6 {
@@ -91,10 +97,12 @@ clip-path: inset( calc(100% - 2px) 0 0 0 );
     transform: translateX(-5em);
     transition: 0.6s cubic-bezier(.4,0,.2,1);
     transition-property: transform, opacity;
+    z-index: 0;
 }
 #t0:checked~.tw>.t0,#t1:checked~.tw>.t1,#t2:checked~.tw>.t2,#t3:checked~.tw>.t3,
 #t4:checked~.tw>.t4,#t5:checked~.tw>.t5,#t6:checked~.tw>.t6 {
     display: block;
     opacity: 1;
     transform: translateX(0);
+    z-index: 1;
 }

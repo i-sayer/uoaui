@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Slide door style panel</title>
+    <style>
+    body {
+    margin: 0;
+    }
+    .outer {
+    display: flex;
+    box-sizing: border-box;
+    }
+    .outer.vertical {
+        flex-direction: column;
+    }
+    .p1, .p2 {
+    flex: 1 1 50%;
+    box-sizing: border-box;
+    background-color: #bbb;
+    transition: flex-basis 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    padding: 1rem;
+    column-width: 360px;
+    }
+    .bar {
+    flex: 0 0 5px;
+    cursor: ew-resize;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg,#666,#999,#666);
+    justify-content: center;
+    }
+    .bar::before {
+    content:"";
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: #333;
+    box-shadow: 0 6px 0, 0 -6px 0;
+    }
+    .vertical>.bar {
+        cursor: ns-resize;
+        background: linear-gradient(#666,#999,#666);
+    }
+    .vertical>.bar::before {
+    box-shadow: 6px 0 0, -6px 0 0;
+    }
+    </style>
+</head>
+<body>
+    <!-- <input type="checkbox" id="toggle" /> -->
+    <div class="outer">
+        <div class="p1">Lorem ipsum dolor sit amet consectetur adipisicing elit. A beatae ab ipsam quia officiis natus quidem praesentium, fugit reprehenderit sed illum alias inventore tenetur unde distinctio rem molestiae laboriosam aperiam.
+        Aliquid vero distinctio accusantium ea repellat? Ratione, excepturi libero? Tenetur harum possimus adipisci. Iure minus soluta commodi vero magni molestiae ullam, tenetur nam, voluptate, temporibus tempore dignissimos labore praesentium? Dignissimos?
+        Iusto consectetur quisquam cupiditate mollitia amet quod, dignissimos vero, error fugit illo quam sit unde adipisci excepturi. Quod quasi labore debitis minima, praesentium, aperiam voluptatibus quae perspiciatis laudantium sit exercitationem.
+        Alias facilis perferendis cumque fugiat rem vero illum soluta corrupti neque totam accusamus esse, deleniti excepturi. Harum, nihil numquam voluptate impedit voluptates sequi deserunt quam illum fugiat maiores magni quisquam.
+        Ea animi repudiandae ut ipsa velit laudantium itaque, corporis incidunt atque expedita. Culpa magni fugit, blanditiis libero reprehenderit cum asperiores temporibus dolor non earum voluptatum aut itaque officiis, ratione veritatis!
+        Aliquid earum voluptas eum tenetur quaerat, amet rerum quae inventore quo quia, vel illum assumenda aliquam adipisci numquam, nisi consequuntur omnis harum quod perspiciatis ea voluptatem aperiam animi. Fuga, cupiditate!
+        Velit quae ipsa, impedit temporibus similique sequi, sit deserunt minima ducimus asperiores corporis dolores delectus accusantium, explicabo ratione! Quasi odio eaque eum veritatis a harum voluptatibus enim, incidunt dolorem exercitationem!
+        Blanditiis praesentium consectetur sint, aspernatur aperiam facilis temporibus officia tenetur odio suscipit ipsa cupiditate est omnis molestiae modi assumenda ea nam quia maxime. Doloremque quos, placeat non ut tempora aperiam.
+        Veniam repudiandae dicta aliquid quibusdam tempora numquam alias ipsa harum facilis molestias nihil voluptatibus odit quas, voluptatem nulla expedita, blanditiis ad deserunt iure ducimus! Pariatur quod aperiam sed nemo atque.
+        Vitae ex, ipsa facilis, neque consectetur temporibus cum voluptatibus vero amet voluptatem eos minima totam recusandae repellendus voluptatum porro accusantium expedita iste, repellat obcaecati mollitia itaque. Dolorem inventore aspernatur numquam?</div>
+        <div class="bar" draggable="true"></div>
+        <div class="p2">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quaerat veritatis quos dignissimos dolor dolores vero facilis, officia natus, doloribus voluptas labore optio fugiat facere corrupti harum ea. Aut, consequatur!
+            Amet veniam tenetur ea eligendi pariatur magni voluptatibus, at quae ipsum! Consectetur similique quo nobis ipsam perferendis iure. Nemo, odio! Repellendus praesentium officia ipsum fugit labore harum nostrum soluta libero!
+            Excepturi alias nostrum eius rem nemo ab harum vero velit fugit odit inventore deserunt blanditiis repellat a adipisci fugiat accusamus minima provident reiciendis, sit aperiam debitis nam asperiores? Fugiat, culpa.
+            Animi consequuntur repellendus molestiae error sint ipsam ullam, impedit iste nostrum in similique fugiat nulla veritatis modi aspernatur atque totam possimus, nemo magni, eos dolorum adipisci est officia. Incidunt, similique.
+            Totam qui explicabo harum recusandae aliquid, magnam omnis quia molestias autem numquam. Numquam enim vitae sunt voluptates reprehenderit et magnam ratione eveniet necessitatibus incidunt, commodi beatae. Fuga, error consequuntur? Beatae.
+            Dolorum, iure impedit? Modi a culpa nostrum. Minima doloribus inventore itaque eos maxime voluptatem porro laboriosam nostrum amet in quasi aliquid eveniet, necessitatibus ipsam placeat aperiam nisi adipisci fuga et.
+            Voluptate architecto minima numquam repellat nulla, nisi asperiores laborum ab non odit, placeat porro! Iste, assumenda reprehenderit enim, nisi, error consequuntur maxime ad reiciendis eius illum sequi culpa. Libero, enim.
+            Enim, ut? Odio, eveniet beatae, architecto pariatur deleniti provident earum placeat quos libero nulla maxime sit, eligendi quod dicta quidem nostrum quisquam perferendis laboriosam sequi. Repudiandae eum placeat eos numquam.
+            Temporibus enim illo tempora, ea totam deleniti placeat, culpa iste beatae natus eos eveniet est inventore mollitia. Officiis quisquam repellendus veniam ducimus quidem quod voluptatem itaque magnam, atque autem cumque!
+        </div>
+    </div>
+    <script>
+        //toggle.onclick = ev => ev.target.nextElementSibling.classList.toggle("vertical");
+        function drag_start(ev){
+            ev.dataTransfer.setData("wtf?", "mozilla!");
+        }
+        document.querySelector(".bar").ondragstart = drag_start;
+        function dragover_handler(ev) {
+            ev.preventDefault();
+            ev.dataTransfer.dropEffect = "move";
+        }
+        function drop_handler(ev) {
+            ev.preventDefault();
+            let par = this.parentElement;
+            let splitAt = ev.offsetX + this.offsetLeft;
+            let totalSpan = par.offsetWidth;
+            if (par.classList.contains("vertical")) {
+                splitAt = ev.offsetY + this.offsetTop;
+                totalSpan = par.offsetHeight;
+            }
+            par.firstElementChild.style.flexBasis = `${splitAt}px`;
+            par.lastElementChild.style.flexBasis = `${totalSpan-splitAt}px`;
+        }
+        Array.from(document.querySelectorAll(".p1,.p2")).forEach(function(u){u.ondragover = dragover_handler;u.ondrop = drop_handler});
+        document.querySelectorAll(".bar").ondragstart = drag_start;
+    </script>
+</body>
+</html>

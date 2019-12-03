@@ -1,0 +1,308 @@
+/*  minimal css for generic uoa application
+    Ian Sayer: 28/11/2019
+*/
+@font-face {
+  font-family: "National";
+  src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-Book.woff2");
+}
+
+@font-face {
+  font-family: "National";
+  src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-BookItalic.woff2");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "National";
+  src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-Bold.woff2");
+  font-weight: bold;
+}
+
+:root {
+  font-family: "National", sans-serif;
+  font-size: 20px;
+  --color-primary: #00467f;
+  --color-secondary: #009ac7;
+  --color-tertiary: #8d9091;
+  --color-medium: #d9d9d9;
+  --color-light-1: #f2f2f2;
+  --color-light-2: #bec3c4;
+  --color-success: #2ec95c;
+  --color-warning: #fdd835;
+  --color-error: #ed0c0c;
+  color: var(--color-primary);
+  font-variant-numeric: lining-nums;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 8px;
+  background: linear-gradient(var(--color-secondary) 38px, transparent 38px);
+}
+header::before {
+  content: url(/images/logo_square.svg);
+  width: 120px;
+  height: 120px;
+}
+@media (min-width: 764px) {
+  /* on wider than most mobiles */
+  header::after {
+    /* pillow to force title to center */
+    content: "";
+    display: inline-block;
+    width: 120px;
+  }
+}
+
+header > h1 {
+  font-size: calc(20px + 8 * ((100vw - 320px) / 680));
+  text-align: center;
+  letter-spacing: 1.25px;
+  font-weight: 900;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 600;
+}
+
+hr {
+  margin: 1em 0;
+}
+
+header > h1 > span {
+  font-size: 0.8em;
+  color: var(--color-secondary);
+  display: inline-block;
+  padding: 0 6px;
+  font-style: italic;
+}
+
+body,
+html {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(
+    transparent 130px,
+    var(--color-medium) 130px,
+    var(--color-light-2) 135px
+  );
+}
+
+main {
+  padding: 1em 0 0 0;
+  margin: 0 auto;
+  max-width: 1024px;
+  background-color: var(--color-light-1);
+}
+
+form {
+  padding: 1rem;
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(49%, 1fr));
+  grid-template-rows: repeat(auto-fit, 45px);
+  min-height: calc(100vh - 200px);
+}
+form>label, form>.group>legend {
+  display: flex;
+  padding-right: 12px;
+  flex-direction: column;
+  font-style: italic;
+  font-weight: bold;
+}
+form > label > span {
+  display: inline-block;
+}
+form > label > :not(span) {
+  width: 100%;
+}
+form > label > input {
+  padding: 4px 0;
+}
+form > h3 {
+  margin: 0;
+  grid-column: 1/-1;
+}
+.group {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+}
+.group > h3 {
+  margin: 0;
+}
+.wide {
+  grid-column: 1 / -1;
+  margin-left: -10px;
+  margin-top: 1em;
+  border-top: 1px solid;
+}
+.sh-cb {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  position: fixed;
+  top: -5em;
+}
+.sh-cb + label {
+  position: relative;
+  padding-left: 1.2em;
+  margin-right: 0.25em;
+}
+
+.sh-cb + label::before {
+  content: "";
+  box-sizing: border-box;
+  display: inline-block;
+  position: absolute;
+  left: -3px;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid #0080a7;
+  padding: 2px;
+  background-color: transparent;
+  background-clip: content-box;
+}
+
+.sh-cb[type="radio"] + label::before {
+  border-radius: 50%;
+}
+
+.sh-cb:checked + label::before {
+  background-color: var(--color-secondary);
+}
+
+label + span:empty {
+  display: none;
+}
+
+button {
+    font: inherit;
+    font-weight: bold;
+    border-radius: 32px;
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-light-1);
+    padding: 0.3em 2em 0.4em;
+    min-height: 2em;
+    margin: 0.5em;
+}
+button:focus,
+.sh-cb:focus + label::before,
+input.switch:focus+label::after {
+    outline: none;
+    box-shadow: 0 0 0 1.5px var(--color-medium), 0 0 0 3.5px var(--color-secondary);
+}
+
+.autocomp {
+  background-color: var(--color-medium);
+  padding: 0 4px;
+  min-height: 2rem;
+  border: 1px solid;
+}
+.autocomp>div:hover {
+  background-color: var(--color-warning);
+}
+.autocomp>div {
+  border-top: 1px solid;
+  padding: 4px;
+}
+
+/* @media (min-width: 764px) {
+  label + span:empty {
+    display: inline;
+  }
+} */
+
+@media (min-width: 415px) {
+  form > label {
+    flex-direction: row;
+  }
+  form {
+    grid-template-rows: repeat(auto-fit, 35px);
+  }
+
+  form > label > span {
+    text-align: right;
+    margin-right: 0.5rem;
+    flex: 0 1 32%;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  form > label > [name] {
+    margin-left: 1em;
+    flex: 1 0 70%;
+  }
+
+  sh-tabs > div {
+    padding-right: 12px;
+  }
+}
+input {
+  font-size: 1rem;
+}
+/* simple switch */
+input.switch {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+input.switch + label {
+  position: relative;
+}
+
+input.switch + label::before {
+  content: "";
+  display: inline-block;
+  width: 1.9em;
+  height: 0.9em;
+  border-radius: 1em;
+  background: var(--color-light-2);
+  margin-right: 0.5em;
+}
+
+input.switch + label::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -2px;
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 1em;
+  background-color: var(--color-light-1);
+  box-shadow: inset 0 0 2px black, 0 4px 3px -1px rgba(0, 0, 0, 0.25);
+  margin-right: 0.5em;
+  transition: transform 0.12s ease;
+  transition-property: transform, background-color;
+}
+
+input.switch:checked + label::after {
+  transform: translateX(0.8em);
+  background-color: var(--color-light-2);
+}
+
+input.switch:checked + label::before {
+  background: var(--color-secondary);
+}
+input.switch + label > span::before {
+  content: "select";
+  font-style: italic;
+}
+input.switch:checked + label > span::before {
+  content: "move!";
+}

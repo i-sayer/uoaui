@@ -3,135 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get fragments</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,600,800&amp;subset=all" rel="stylesheet" type="text/css">
-    <style>
-        :root {
-            font-family: 'Roboto', sans-serif;
-            font-size: 16px;
-        }
-        body {
-            opacity: 0;
-            transition: opacity 250ms ease-in;
-        }
-        #mainContainer {
-            padding:1em;
-            margin:2em auto;
-            max-width:1024px;
-            background:#8f8f8f80;
-        }
-        h1 {
-            font-size: calc(16px + 12 * ((100vw - 320px) / 680));
-            text-align: center;
-            letter-spacing: 2.5px;
-            font-weight: 900;
-            color: rgba(0,0,0,0.75);
-        }
-        h2, h3, h4, h5 {
-            font-weight: 600;
-        }
-        #hsl>div>h1 {
-            color: rgba(55,155,55,0.4);
-            margin: auto;
-            text-shadow: 2px 2px 2px rgba(26, 49, 26, 0.658);
-        }
-        #fruit>p[slot="c3"] {
-            min-height: 340px;
-        }
-        #hsl>div[slot=c1] {
-            min-height: 50vh;
-            display: flex;
-            padding:0;
-            background-image: url(https://i-sayer.github.io/skellington/images/sunrise2.jpg);
-            background-size: cover;
-            background-position-y: bottom;
-            width: calc(100% - 12px);
-        }
-    </style>
-    <script src="reggie.js"></script>
+    <meta name="Description" content="Sample native html component loader">
+    <title>Real modules in a zip</title>
+    <link href="modulefromzip.css" rel="stylesheet" type="text/css">
+    <script defer src="sh.js"></script>
 </head>
 <body>
-    <svg width="0" height="0" id="svgIcons">
-        <defs>
-            <path id="calendar-range" alt="calendar"
-                d="M9,10H7V12H9V10M13,10H11V12H13V10M17,10H15V12H17V10M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z">
-            </path>
-            <path id="chevron-right"
-                d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z">
-            </path>
-            <path id="chevron-left"
-                d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z">
-            </path>
-        </defs>
-    </svg>
         <div id="mainContainer">
         <h1>read mymodules.zip</h1>
         <sh-tabs id="hsl" data-tabs="Red;Green;Blue">
-            <h2 slot="c0">Red</h2>
-            <div slot="c1"><h1>Green</h1></div>
+            <div slot="c0">
+                <label>Date of birth: <sh-datepick name="dob"></sh-datepick></label><hr/>
+                    <div style="height: 400px"></div>
+            </div>
+            <div slot="c1"><h1>What we do in the shadow-dom</h1></div>
             <div slot="c2"><h2>ブルー</h4><p><strong>Material Transition function:</strong> cubic-bezier(.4,0,.2,1);</p></div>
         </sh-tabs>
+        <h3>multiple instances</h3>
         <sh-tabs id="fruit" data-tabs="Banana;Grape;Apple;Kiwi">
-            <p slot="c0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit rerum officiis alias nemo dolorem et in ducimus necessitatibus nam dolor, iure, eligendi quod quibusdam laborum dicta earum? Enim, sequi totam!</p>
+            <p slot="c0">
+                <strong>Form elements</strong>
+                    While styled native textbox and radio buttons are a valid option. There may be value in a custom component that encapsulates a label and input allowing more responsive forms in grid layouts.
+            </p>
             <p slot="c1">Vitae quaerat excepturi sit eveniet, eius laboriosam impedit. Sit modi nulla quibusdam quis mollitia sed voluptatibus aperiam, optio accusamus! Praesentium cum tenetur, incidunt asperiores rem ex cumque reprehenderit error minus!</p>
-            <p slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.</p>
-            <p slot="c3"><sh-datepick></sh-datepick>Needs some work, tab slots overlay each other so interactive elements only work in last slot. Maybe disable pointer events for :not(active)?</p>
-        </sh-tabs>
-        <sh-datepick></sh-datepick>
+            <div slot="c2">Soluta cum nihil velit, ratione iure delectus consequatur ex? Sit expedita ab soluta distinctio harum accusantium dolorum. Voluptatum suscipit magnam aperiam veniam quisquam dolorum earum blanditiis sed inventore doloribus! Ea.
+                <sh-autocomplete>
+                        <div slot="list"  style="min-height: 2em;">
+                            <div style="display:none">Morrinsville</div>
+                            <div style="display:none">Te Aroha</div>
+                            <div style="display:none">Matamata</div>
+                            <div style="display:none">Thames</div>
+                            <div style="display:none">Paeroa</div>
+                            <div style="display:none">Te Awamutu</div>
+                            <div style="display:none">Raglan</div>
+                            <div style="display:none">Parongia</div>
+                            <div style="display:none">Kiwitahe</div>
+                        </div>
+                </sh-autocomplete>
+            </div>
+            <div slot="c3">Needs some work. Should have <em>jump to month/year</em> function.</div>
+    </sh-tabs>
+        <!-- <sh-datepick></sh-datepick> -->
     </div>
     <script>
-        fetch("mymodules.zip", {method:"GET", credentials:"same-origin"})
-            .then(response=>response.arrayBuffer())
-            .then(data=>{
-                var EOCD = data.byteLength - 22;
-                var vw = new Uint8Array(data);
-                const files = [];
-
-                var sig = getInteger(vw.subarray(EOCD,EOCD+4));
-                if (sig != 0x6054B50)
-                    return console.log("error locating EOCD");
-                var i, numrecs = getInteger(vw.subarray(EOCD + 8, EOCD + 10));
-                var CD = getInteger(vw.subarray(EOCD + 16, EOCD + 20));
-                if (getString(vw.subarray(CD, CD + 4)) != "PK\01\02")
-                    return console.log("error locating CD");
-                for (i = 0; i < numrecs; i++) {
-                    // get each entry
-                    var filenamelen = getInteger(vw.subarray(CD + 28, CD + 30));
-                    var extralen = getInteger(vw.subarray(CD + 30, CD + 32));
-                    var filename = getString(vw.subarray(CD + 46, CD + 46 + filenamelen));
-                    var offset = getInteger(vw.subarray(CD + 42, CD + 46));
-                    extralen = getInteger(vw.subarray(offset + 28, offset + 30));
-                    var compressedSize = getInteger(vw.subarray(CD + 20, CD + 24));
-                    var fdata = getString(vw.subarray(offset + 30 + filenamelen + extralen, offset + 30 + filenamelen + extralen + compressedSize));
-                    if (vw[CD + 10] != 0)
-                        return console.log("compressed files not allowed");//fdata = RawDeflate.inflate(fdata);
-                    files.push({ name: filename, data: fdata });
-                    CD += (82 + filenamelen); // was 46
-                }
-                // ifrm.srcdoc = files[0].data;
-                var ifrm, ifrms = [];
-                for (const module of files) {
-                    ifrm = document.createElement("iframe");
-                    ifrm.frameBorder = ifrm.width = ifrm.height = "0";
-                    ifrm.ariaHidden="true";
-                    ifrm.srcdoc = module.data;
-                    document.body.appendChild(ifrm);
-                    ifrms.push(ifrm);
-                }
-                setTimeout(u=>{
-                document.body.style.opacity = 1;
-                // for (ifrm of ifrms)
-                //     document.body.removeChild(ifrm);
-                }, 90);
-            })
-            function getString(a) {
-                return Array.prototype.slice.call(a).map( function (x) { return String.fromCharCode(x) }).join("");
-            }
-            function getInteger(b) {
-                for (var i = 0, result = 0; i < b.byteLength; i++)
-                    result += b[i] << (i * 8);
-                return result;
-            }
     </script>
+    <svg width="0" height="0" id="svgIcons">
+        <defs>
+            <path id="close" alt="cross" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"></path>
+            <path id="calendar-range" alt="calendar" d="M9,10H7V12H9V10M13,10H11V12H13V10M17,10H15V12H17V10M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"></path>
+            <path id="chevron-right" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+            <path id="chevron-left" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
+            <path id="magnify" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z">
+            </path>
+
+        </defs>
+    </svg>
 </body>
 </html>

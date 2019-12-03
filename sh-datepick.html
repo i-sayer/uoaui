@@ -2,17 +2,22 @@
 <template id="datepick">
     <link rel="stylesheet" type="text/css" href="sh-datepick.css">
     <div class="wrapper">
-        <input id="datetb" onfocus="this.classList.add('open')" type="text"/>
+        <input id="datetb" onfocus="this.classList.add('open')" type="text" autocomplete="off" />
         <div class="datepicker-main">
             <header>
-                <svg viewBox="0 0 24 24" width="20" style="float:right" data-icon="calendar-range"></svg>
+                <div class="toggle">
+                    <div class="flipper">
+                        <svg viewBox="0 0 24 24" width="26" data-icon="calendar-range"></svg>
+                        <svg viewBox="0 0 24 24" width="26" data-icon="close"></svg>
+                    </div>
+                </div>
                 <h4>1999</h4>
                 <h2>Wednesday 31</h2>
             </header>
             <nav>
-                <svg viewBox="0 0 24 24" width="24" data-icon="chevron-left"></svg>
+                <svg viewBox="0 0 24 24" height="32" width="32" data-icon="chevron-left" data-inc=-1></svg>
                 <h4>December</h4>
-                <svg viewBox="0 0 24 24" width="24" data-icon="chevron-right"></svg>
+                <svg viewBox="0 0 24 24" height="32" width="32" data-icon="chevron-right" data-inc=1></svg>
             </nav>
             <section><b>SU</b><b>MO</b><b>TU</b><b>WE</b><b>TH</b><b>FR</b><b>SA</b></section>
             <main>
@@ -28,45 +33,77 @@
 </template>
 <script>
 /* Date Picker module based on material design */
-if (window.parent && "customRegInput" in window.parent){
+if (window.parent && "customReg" in window.parent){
     let bits = document.querySelectorAll("template");
-    window.parent.customRegInput("sh-datepick", bits, function (){
+    window.parent.customReg("sh-datepick", bits, function (){
         const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
         this.workdate = new Date();
-        const year = this.workdate.getFullYear();
-        const today = this.workdate.getDate();
-        const days = new Date(year, this.workdate.getMonth()+1, 0).getDate();
-        this.shadowRoot.querySelector("nav>h4").textContent = this.workdate.toLocaleString('default',{month: 'long'});
-        this.shadowRoot.querySelector("header>h4").textContent = year ;
-        this.shadowRoot.querySelector("header>h2").textContent = `${this.workdate.toLocaleString('default',{weekday: 'long'})} ${today}` ;
-        this.workdate.setDate(1);
-        this.shadowRoot.querySelector(".datepicker-main").onclick = function (e) {
-            this.previousElementSibling.classList.add("open");
-            console.log(this.tagName);
+        var me = this;
+        this.year = me.workdate.getFullYear();
+        var days = (new Date(this.year, me.workdate.getMonth()+1, 0)).getDate();
+        this.changeMonth = function(e){
+            me.workdate.setMonth(me.workdate.getMonth()+(this.dataset.inc>>0));
+            me.year = me.workdate.getFullYear();
+            days = (new Date(me.year, me.workdate.getMonth()+1, 0)).getDate();
+            me.paintMonth();
+            e.stopPropagation();
         }
-        const n1 = this.workdate.getDay(), n2 = n1 + days;
-        Array.from(this.shadowRoot.querySelectorAll("main>b")).slice(n1, n2).forEach((b,i)=>{
-            b.textContent=i+1;
-            b.onclick = function(e){
-                let inputel = e.target.closest(".datepicker-main").previousElementSibling;
-                this.getRootNode().host.workdate.setDate(e.target.textContent>>0);
-                inputel.value = this.getRootNode().host.workdate.toLocaleString('en-NZ',{day: 'numeric', month:'long', year:'numeric'});
-                inputel.classList.remove("open");
-                e.stopPropagation();
-            };
-            if ((i+1)==today)
-                b.classList.add("today");
-        });
+        let monthnav = this.shadowRoot.querySelectorAll("nav>svg");
+        monthnav[0].onclick = monthnav[1].onclick = this.changeMonth;
+        this.shadowRoot.querySelector(".datepicker-main").onclick = function (e) {
+            const icon1 = this.querySelector("svg");
+            let pe=this.previousElementSibling;
+            if (pe.classList.contains("open")){
+                pe.classList.remove("open");
+            } else {
+                pe.classList.add("open");
+            }
+        }
+        this.paintMonth = function () {
+            const today = this.workdate.getDate();
+            this.workdate.setDate(1);
+            const n1 = this.workdate.getDay();
+            const allb = Array.from(this.shadowRoot.querySelectorAll("main>b"));
+            let remove = this.shadowRoot.querySelector("main>b.today");
+            if (remove)
+                remove.classList.remove("today");
+            allb.splice(n1, days).forEach((b,i)=>{
+                b.textContent=i+1;
+                b.onclick = function(e){
+                    let inputel = e.target.closest(".datepicker-main").previousElementSibling;
+                    this.getRootNode().host.workdate.setDate(e.target.textContent>>0);
+                    inputel.value = this.getRootNode().host.workdate.toLocaleString('en-NZ',{day: 'numeric', month:'long', year:'numeric'});
+                    this.getRootNode().host.formattedDate = inputel.value;
+                    inputel.classList.remove("open");
+                    e.stopPropagation();
+                };
+                if ((i+1)==today)
+                    b.classList.add("today");
+                me.shadowRoot.querySelector("nav>h4").textContent = me.workdate.toLocaleString('default',{month: 'long'});
+                me.shadowRoot.querySelector("header>h4").textContent = this.year ;
+                me.shadowRoot.querySelector("header>h2").textContent = `${me.workdate.toLocaleString('default',{weekday: 'long'})} ${today}` ;
+            });
+            // the splice above leaves only the unused day cells in allb
+            allb.forEach(b=>b.textContent="");
+        }
+        this.paintMonth();
         const icons = this.shadowRoot.querySelectorAll("svg");
         for (const icon of icons) {
             const p = window.parent.document.getElementById(icon.dataset.icon);
             if (p)
                 icon.appendChild(p.cloneNode(true));
         }
-        // this.selectTab = function(ix){
-        //     var dTab = this.shadowRoot.querySelectorAll("input[type='radio']")[ix];
-        //     dTab.click.call(dTab);
-        // };
+        this.setInitialDate = function (date){
+            let inputel = this.shadowRoot.querySelector("input#datetb");
+            if (date){
+                this.workdate = date;
+                this.year = date.getFullYear();
+                inputel.value = this.workdate.toLocaleString('en-NZ',{day: 'numeric', month:'long', year:'numeric'});
+                this.paintMonth();
+            } else
+                inputel.value = "";
+        }
+        // end of construct()
     }, function (e){
         // connected handler
         // var dat = this;

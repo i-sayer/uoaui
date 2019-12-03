@@ -1,0 +1,61 @@
+@font-face {
+    font-family: "National";
+    src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-Book.woff2");
+}
+@font-face {
+    font-family: "National";
+    src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-BookItalic.woff2");
+    font-style: italic;
+}
+@font-face {
+    font-family: "National";
+    src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-Bold.woff2");
+    font-weight: bold;
+}
+
+:root {
+    font-family: 'National', verdana, sans-serif;
+    font-size: 18px;
+    color: #00467c;
+    font-variant-numeric: lining-nums;
+}
+body {
+    opacity: 0;
+    transition: opacity 250ms ease-in;
+}
+#mainContainer {
+    padding:1em;
+    margin:2em auto;
+    max-width:1024px;
+    background:#8f8f8f80;
+}
+h1 {
+    font-size: calc(16px + 12 * ((100vw - 320px) / 680));
+    text-align: center;
+    letter-spacing: 2.5px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.75);
+}
+h2, h3, h4, h5 {
+    font-weight: 600;
+}
+#hsl>div>h1 {
+    color: rgba(28, 204, 28, 0.774);
+    margin: auto;
+    text-shadow: 0 0 12px black;
+}
+#fruit>[slot="c3"] {
+    min-height: 360px;
+}
+p[slot] {
+    padding:0 1em;
+}
+#hsl>div[slot=c1] {
+    min-height: 70vh;
+    display: flex;
+    padding:0;
+    background-image: url(/images/shadows.jpg);
+    background-size: cover;
+    background-position-y: top;
+    width: calc(100% - 12px);
+}

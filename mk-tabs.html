@@ -1,0 +1,159 @@
+<template id="tabcomponentN">
+    <label for="t$"></label>
+    <input type="radio" id="t$" name="_" />
+    <slot class="t$" name="c$"></slot>
+</template>
+<template id="tabcomponent">
+<style>
+.tabbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+input[name="_"] {
+    height: 1px;
+    width: 1px;
+    position: absolute;
+    opacity: 0.1;
+}
+.tabbar>label {
+    outline: none;
+    color: var(--color-light-1, white);
+    padding: 0 12px 3px;
+    margin: 0 1px 0 0;
+    font-style: italic;
+    overflow: hidden;
+    background-color: var(--color-secondary, dodgerblue);
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    z-index: 1;
+    user-select: none;
+}
+.container>h1:focus {
+    transition-delay: 0.15s;
+}
+[for=t0]::before,[for=t1]::before,[for=t2]::before,[for=t3]::before,[for=t4]::before,[for=t5]::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: var(--color-primary);
+transition: .3s cubic-bezier(.4,0,.2,1);
+transition-property: clip-path, -webkit-clip-path;
+-webkit-clip-path: polygon( 50% calc(100% - 2px), 50% calc(100% - 2px), 50% 100%, 50% 100% );
+clip-path: polygon( 50% calc(100% - 2px), 50% calc(100% - 2px), 50% 100%, 50% 100% );
+z-index: -1;
+}
+[for=t0]:hover::before,[for=t1]:hover::before,[for=t2]:hover::before,
+[for=t3]:hover::before,[for=t4]:hover::before,[for=t5]:hover::before {
+-webkit-clip-path: polygon( 0 calc(100% - 2px), 100% calc(100% - 2px), 100% 100%, 0 100%);
+clip-path: polygon( 0 calc(100% - 2px), 100% calc(100% - 2px), 100% 100%, 0 100%);
+}
+.container>h1:focus::before {
+    -webkit-clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
+    clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
+}
+.tabbar>span {
+    flex: 4 0 0;
+}
+.tw {
+    position:relative;
+    display: block;
+    overflow: hidden;
+    height: 100%;
+}
+.tw>slot {
+    padding: 6px;
+    background-color: var(--color-medium);
+    width: 100%;
+    display: inline-block;
+}
+#t0:checked~div.tabbar>[for=t0],#t1:checked~div.tabbar>[for=t1],#t2:checked~div.tabbar>[for=t2],
+#t3:checked~div.tabbar>[for=t3],#t4:checked~div.tabbar>[for=t4],#t5:checked~div.tabbar>[for=t5],
+#t6:checked~div.tabbar>[for=t6] {
+    color: var(--color-light-1);
+}
+#t0:checked~div.tabbar>[for=t0]::before,#t1:checked~div.tabbar>[for=t1]::before,#t2:checked~div.tabbar>[for=t2]::before,
+#t3:checked~div.tabbar>[for=t3]::before,#t4:checked~div.tabbar>[for=t4]::before,#t5:checked~div.tabbar>[for=t5]::before,
+#t6:checked~div.tabbar>[for=t6]::before {
+    -webkit-clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
+    clip-path: polygon( 0 0, 100% 0, 100% 100%, 0 100% );
+}
+
+#t0~.tw>.t0,#t1~.tw>.t1,#t2~.tw>.t2,#t3~.tw>.t3,#t4~.tw>.t4,#t5~.tw>.t5,#t6~.tw>.t6 {
+    opacity: 0;
+    position: absolute;
+    top:0;
+    transform: translateX(-1em);
+    transition: 0.6s cubic-bezier(.4,0,.2,1);
+    transition-property: transform, opacity;
+    z-index: 0;
+}
+#t0:checked~.tw>.t0,#t1:checked~.tw>.t1,#t2:checked~.tw>.t2,#t3:checked~.tw>.t3,
+#t4:checked~.tw>.t4,#t5:checked~.tw>.t5,#t6:checked~.tw>.t6 {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 1;
+}
+</style>
+    <div class="tabbox">
+        <div class="tabbar">
+        </div>
+        <div class="tw"></div>
+    </div>
+</template>
+<script>
+if (window.parent && "customReg" in window.parent){
+    let bits = document.querySelectorAll("template[id^=tabcomponent]");
+    window.parent.customReg("mk-tabs", bits, function (){
+        const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[1].content.cloneNode(true));
+        var par = this.shadowRoot.lastElementChild;
+        var bar = par.firstElementChild;
+        var wrp = par.lastElementChild;
+        this.setAttribute("tabindex", "0");
+        this.onfocus = function(u) { // pass focus on to shadowdom
+            this.shadowRoot.querySelector("input").focus();
+        }
+        this.dataset.tabs.split(";").forEach(function(n,i) {
+            var sub = document
+                .importNode(tabcomponentN.content, true);
+            var dx, d = sub.firstElementChild;
+            d.textContent = n;
+            var dests = [bar,par,wrp];
+            for (var j=0; d; j++) {
+                Array.from(d.attributes).forEach(x=>x.nodeValue = x.nodeValue.replace("$",i));
+                dx = d.nextElementSibling;
+                switch (j) {
+                    case 0:
+                        bar.appendChild(d);
+                        break;
+                    case 1:
+                        par.insertBefore(d, bar);
+                        d.onclick = changeHeight;
+                        break;
+                    case 2:
+                        wrp.appendChild(d);
+                }
+                d = dx;
+            }
+        });
+        function changeHeight(e){
+            let height = Math.max(360, this.parentElement.querySelector("slot."+this.id).offsetHeight+24);
+            this.parentElement.style.height = height+"px";
+            localStorage[this.getRootNode().host.id] = this.id[1];
+        }
+        bar.appendChild(document.createElement("span"));
+        this.selectTab = function(ix){
+            var dTab = this.shadowRoot.querySelectorAll("input[type='radio']")[ix];
+            dTab.click.call(dTab);
+        };
+    }, function (e){
+        // connected handler
+        var dat = this;
+        setTimeout(e=>dat.selectTab.call(dat,localStorage[this.id]||0),25);
+    });
+}
+</script>

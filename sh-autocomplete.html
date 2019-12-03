@@ -1,0 +1,59 @@
+<body>
+<template id="autocomplete">
+    <link rel="stylesheet" type="text/css" href="sh-autocomplete.css">
+    <div class="wrapper">
+        <input id="actb" onfocus="this.classList.add('open')" type="text" autocomplete="off" />
+        <div class="autocomplete-main">
+            <header><svg viewBox="0 0 24 24" width="26" data-icon="magnify"></svg></header>
+            <div class="listwrap">
+                <slot name="list">
+            </div>
+            </slot>
+        </div>
+    </div>
+</template>
+<script>
+/* Autocomplete module based on material design */
+if (window.parent && "customReg" in window.parent){
+    let bits = document.querySelectorAll("template");
+    window.parent.customReg("sh-autocomplete", bits, function (){
+        const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
+        this.shadowRoot.querySelector(".autocomplete-main").onclick = function (e) {
+            let pe=this.previousElementSibling;
+            if (pe.classList.contains("open")){
+                pe.classList.remove("open");
+            } else {
+                pe.classList.add("open");
+            }
+        }
+        var inputel = this.shadowRoot.querySelector("input");
+        var slot = this.shadowRoot.querySelector("slot[name=list");
+        var that = this;
+        inputel.oninput = function(e){
+            var txt = this.value.toUpperCase();
+            var i, card, cards = this.nextElementSibling.querySelector("slot[name=list]").assignedNodes()[0].children;
+            if (txt=="") {
+                for(i=0; card=cards[i]; i++)
+                    card.style.display = "none";
+            } else {
+                for (i=0; card=cards[i]; i++){
+                    if (card.textContent.toUpperCase().indexOf(txt)>=0)
+                        card.style.display = "block";
+                    else
+                        card.style.display = "none";
+                }
+            }
+        }
+        const icons = this.shadowRoot.querySelectorAll("svg");
+        for (const icon of icons) {
+            const p = window.parent.document.getElementById(icon.dataset.icon);
+            if (p)
+                icon.appendChild(p.cloneNode(true));
+        }
+        // end of construct()
+    }, function (e){
+        //
+    });
+}
+</script>
+</body>
