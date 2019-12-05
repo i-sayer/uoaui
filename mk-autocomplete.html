@@ -61,7 +61,7 @@ header>svg {
 /* Autocomplete module based on material design */
 if (window.parent && "customReg" in window.parent){
     let bits = document.querySelectorAll("template#autocomplete");
-    window.parent.customReg("sh-autocomplete", bits, function (){
+    window.parent.customReg("mk-autocomplete", bits, function (){
         const shadowRoot = this.attachShadow({mode:"open"}).appendChild(bits[0].content.cloneNode(true));
         this.shadowRoot.querySelector(".autocomplete-main").onclick = function (e) {
             let pe=this.previousElementSibling;

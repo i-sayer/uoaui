@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OK200-10Dec2019</title>
+    <link href="https://fonts.googleapis.com/css?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+@font-face {
+  font-family: "National";
+  src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-Book.woff2");
+}
+
+@font-face {
+  font-family: "National";
+  src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-BookItalic.woff2");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "National";
+  src: url("https://cdn.auckland.ac.nz/aem/etc/designs/uoa-digital/clientlibs/css/base/fonts/NationalWeb-Bold.woff2");
+  font-weight: bold;
+}
+
+    html {
+        overflow: scroll;
+        overflow-x: hidden;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+    ::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+}
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+        :root {
+            font-family: "National", sans-serif;
+            color: beige;
+            font-size: 48px;
+            background: radial-gradient(circle,#555, #222);
+            background-attachment: fixed;
+        }
+        *:focus {
+            outline: none;
+        }
+        ul {
+            font-style: italic;
+        }
+        li {
+            transform-origin: left;
+            transform: scale(1);
+            color: rgba(245,245,220,0.5);
+            transition: 1s ease;
+        }
+        a {
+            color: inherit;
+        }
+        li:focus, li:focus-within {
+            color: rgba(245,245,220,1);
+            transform: scale(1.25);
+            transition-property: color, transform;
+        }
+        #slide2{
+            font-family: 'Creepster', cursive;
+            background-image: url(images/shadows.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center -20vh;
+        }
+        section {
+            height: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 4px 16px rgba(0,0,0,0.95);
+        }
+        h1>b {
+            color: rgba(245,245,220,0);
+            display: inline-block;
+            transform: translate(-2em, -2em);
+            padding: 0 20px;
+            transition: 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition-property: color, transform, padding;
+        }
+        h1.goAnim>b {
+            color: rgba(245,245,220,1);
+            transform: translate(0,0);
+            padding: 0 0;
+        }
+    </style>
+</head>
+<body>
+    <section id="slide1">
+        <h2>UoA Front End Developers Guild</h2>
+        <h1>10 December 2019</h1>
+    </section>    
+    <section id="slide2">
+        <h2 tabindex="0">What we do in the</h2>
+        <h1>Shadow-dom</h1>
+    </section>
+    <section id="slide3">
+        <h1>Topics</h1>
+        <ul>
+            <li tabindex="0">CSS: Not just for styling</li>
+            <li tabindex="0">Native custom elements</li>
+            <li tabindex="0">DHTML: native binding</li>
+            <li tabindex="0">An example application</li>
+        </ul>
+    </section>
+    <section id="slide4">
+        <h1 tabindex="0">FMHS MMI Interviews</h1>
+        <ul>
+            <li tabindex="0">9 Days every November</li>
+            <li tabindex="0">864 student interviews</li>
+            <li tabindex="0">150+ Interviewers</li>
+            <li tabindex="0">300+ Staff & Student helpers</li>
+            <li><a href="https://mhsfaculty.auckland.ac.nz/ssostaff/mmi/applicant.aspx?id=1380033">link</a></li>
+            <!-- the last list item here doesn't require a tabindex because of child a tag -->
+        </ul>
+    </section>
+    <script>
+        function splunge(selector){
+            const splungee = document.querySelector(selector);
+            const chars = splungee.textContent.split("");
+            splungee.innerHTML = "";
+            chars.forEach((char,i)=>{
+                let elm = document.createElement("b");
+                elm.textContent = char;
+                elm.style.transitionDelay = 400 + i * 120 + "ms";
+                splungee.appendChild(elm);
+            });
+            // setup intersection observer
+            options = {
+                root: null,
+                rootMargin: "0px",
+                threshhold: 1
+            }
+            try {
+                observer = new IntersectionObserver(handleIntersect, options);
+                observer.observe(splungee);
+                function handleIntersect(entries, observer) {
+                    entries.forEach(function(entry) {
+                        var ptr = (entry.isIntersecting)?"add":"remove";
+                        entry.target.classList[ptr]("goAnim");
+                    });
+                }
+            } catch (dontcare) {
+                splungee.classList.add("goAnim");
+            }
+        }
+        splunge("#slide2>h1");
+    </script>
+</body>
+</html>

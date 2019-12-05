@@ -53,6 +53,10 @@
                 font-style: italic;
                 white-space: nowrap;
             }
+            .card>h6 {
+                margin: 0;
+                padding: 4px;
+            }
             .card>div {
                 padding: 6px;
                 font-size: 0.7rem;
@@ -79,6 +83,9 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-between;
+            }
+            .course>h6::before {
+                content: "Duration: ";
             }
             .course>aside {
                 align-self: stretch;
@@ -120,18 +127,17 @@
             <div class="card course">
                 <h5></h5>
                 <div></div>
+                <h6></h6>
                 <aside></aside>
             </div>
         </template>
         <script src=names.js></script>
         <script>
-            const templ8 = document.getElementById("card_template_student");
             allapp.slice(0, 120).forEach(element => {
-                let ncard = document.importNode(templ8.content, true);
+                let ncard = document.importNode(card_template_student.content, true);
                 ncard.querySelector("h5").textContent = element.name;
                 ncard.firstElementChild.dataset.id = element.auid;
                 ncard = cardBox.appendChild(ncard);
-                // ncard = leftPanel.lastElementChild;
             });
             fetch("https://api.auckland.ac.nz/service/programme/v2/programmes?programmeFaculty=Faculty%20of%20Medical%20and%20Health%20Sciences", { method: "GET", credentials: "same-origin" })
             .then(function (response) {
@@ -149,13 +155,13 @@
                         tbox.appendChild(lbox);
                     });
                     courseCards.appendChild(tbox);
-                    const templ8 = document.getElementById("card_template_course");
                     json.programmes.forEach(function (u) {
-                        let ncard = document.importNode(templ8.content, true);
-                        let index = levels.findIndex(l=>u.level==l);
+                        let ncard = document.importNode(card_template_course.content, true);
+                        let index = levels.findIndex(level=>u.level==level);
                         ncard.querySelector("h5").textContent = u.programmeName;
                         ncard.querySelector("h5+div").textContent = u.name;
                         ncard.querySelector("aside").textContent = u.type;
+                        ncard.querySelector("h6").textContent = u.duration;
                         tbox.children[index].appendChild(ncard);
                     });
                 }

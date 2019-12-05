@@ -162,7 +162,7 @@ input.open + .datepicker-main {
   if (window.parent && "customReg" in window.parent) {
     let bits = document.querySelectorAll("template#datepick");
     window.parent.customReg(
-      "sh-datepick",
+      "mk-datepick",
       bits,
       function() {
         const shadowRoot = this.attachShadow({ mode: "open" }).appendChild(
@@ -203,7 +203,6 @@ input.open + .datepicker-main {
           allb.splice(n1, days).forEach((b, i) => {
             b.textContent = i + 1;
             b.onclick = function(e) {
-              //let inputel = e.target.closest(".datepicker-main").previousElementSibling;
               inputel = e.target.closest(".datepicker-main").previousElementSibling;
               this.getRootNode().host.workdate.setDate(
                 e.target.textContent >> 0
@@ -255,8 +254,6 @@ input.open + .datepicker-main {
       },
       function(e) {
         // connected handler
-        // var dat = this;
-        // setTimeout(e=>dat.selectTab.call(dat,localStorage[this.id]||0),25);
       }
     );
   }

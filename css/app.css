@@ -72,6 +72,7 @@ h5 {
 
 hr {
   margin: 1em 0;
+  grid-column: 1/-1;
 }
 
 header > h1 > span {
@@ -139,6 +140,7 @@ form > h3 {
 .center {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .group > h3 {
   margin: 0;
@@ -149,38 +151,39 @@ form > h3 {
   margin-top: 1em;
   border-top: 1px solid;
 }
-.sh-cb {
+.group>input {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
   position: fixed;
   top: -5em;
 }
-.sh-cb + label {
+.group>input + label {
   position: relative;
   padding-left: 1.2em;
   margin-right: 0.25em;
 }
 
-.sh-cb + label::before {
+.group>input + label::before {
   content: "";
   box-sizing: border-box;
   display: inline-block;
   position: absolute;
-  left: -3px;
+  left: -5px;
   width: 1.2rem;
   height: 1.2rem;
   border: 2px solid #0080a7;
   padding: 2px;
+  border-radius: 3px;
   background-color: transparent;
   background-clip: content-box;
 }
 
-.sh-cb[type="radio"] + label::before {
+.group>input[type="radio"] + label::before {
   border-radius: 50%;
 }
 
-.sh-cb:checked + label::before {
+.group>input:checked + label::before {
   background-color: var(--color-secondary);
 }
 
@@ -197,13 +200,14 @@ button {
     color: var(--color-light-1);
     padding: 0.3em 2em 0.4em;
     min-height: 2em;
+    width: fit-content;
     margin: 0.5em;
 }
 button:focus,
-.sh-cb:focus + label::before,
-input.switch:focus+label::after {
+.group>input:focus + label::before,
+input.switch:focus+label::before {
     outline: none;
-    box-shadow: 0 0 0 1.5px var(--color-medium), 0 0 0 3.5px var(--color-secondary);
+    box-shadow: 0 0 0 0.5px var(--color-light-1), 0 0 0 2.5px #8bb5f9;
 }
 
 .autocomp {
@@ -247,7 +251,7 @@ input.switch:focus+label::after {
     flex: 1 0 70%;
   }
 
-  sh-tabs > div {
+  mk-tabs > div {
     padding-right: 12px;
   }
 }
