@@ -139,7 +139,7 @@
                 ncard.firstElementChild.dataset.id = element.auid;
                 ncard = cardBox.appendChild(ncard);
             });
-            fetch("https://api.auckland.ac.nz/service/programme/v2/programmes?programmeFaculty=Faculty%20of%20Medical%20and%20Health%20Sciences", { method: "GET" })
+            fetch("https://api.auckland.ac.nz/service/programme/v2/programmes?programmeFaculty=Faculty%20of%20Medical%20and%20Health%20Sciences", { method: "GET", credentials: "same-origin" })
             .then(function (response) {
                 return response.json();
             }).then(function (json) {
