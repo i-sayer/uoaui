@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GP Search</title>
+    <template id="card">
+        <div class="card">
+            <h3></h3>
+            <content></content>
+            <footer></footer>
+        </div>
+    </template>
+    <style>
+        :root {
+            font-family: "Segoe UI", "Microsoft Sans Serif", sans-serif;
+            color: #00467c;
+        }
+        body {
+            margin:0;
+            background-color: rgba(95, 158, 160, 0.486);
+            padding: 8px;
+        }
+        h1 {
+            color: rgba(95, 158, 160, 0.486);
+            font-size: 3rem;
+            text-shadow: -1px -1px 2px rgba(255,255,255,0.5), 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        [id$=Cards]{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-gap: 8px;
+        }
+        .card {
+            padding: .404em .808em;
+            background-color: beige;
+            line-height: 1.616;
+            display: flex;
+            flex-direction: column;
+        }
+        .card>h3 {
+            margin:0;
+        }
+        .card>content {
+            flex-grow: 1;
+            font-size: .9rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Client Side CORS Demo</h1>
+    <section id="personCards"></section>
+    <script>
+        var results = {personnel:[]};
+        fetch("http://gumli.auckland.ac.nz/cors-gp.php?k=8584073464102069&search=john", {method: "GET", mode:"cors"})
+        .then(response => response.json())
+        .then(function (json) {
+            results = json;
+            let template = document.getElementById("card");
+            json.personnel.forEach(p=>{
+                let newcard = document.importNode(template.content, true);
+                newcard = newcard.firstElementChild;
+                newcard.children[0].textContent = p.Name;
+                newcard.children[1].textContent = p.Practice;
+                newcard.children[2].textContent = p.Phone;
+                personCards.appendChild(newcard);
+            });
+        });
+    </script>
+</body>
+</html>
