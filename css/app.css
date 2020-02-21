@@ -63,18 +63,6 @@ header > h1 {
   font-weight: 900;
 }
 
-h2,
-h3,
-h4,
-h5 {
-  font-weight: 600;
-}
-
-hr {
-  margin: 1em 0;
-  grid-column: 1/-1;
-}
-
 header > h1 > span {
   font-size: 0.8em;
   color: var(--color-secondary);
@@ -130,7 +118,7 @@ form > label > input {
 }
 form > h3 {
   margin: 0;
-  grid-column: 1/-1;
+  text-align: center;
 }
 .group {
   display: flex;
@@ -141,6 +129,9 @@ form > h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.fullwidth {
+  grid-column: 1/-1;
 }
 .group > h3 {
   margin: 0;
@@ -223,12 +214,6 @@ input.switch:focus+label::before {
   border-top: 1px solid;
   padding: 4px;
 }
-
-/* @media (min-width: 764px) {
-  label + span:empty {
-    display: inline;
-  }
-} */
 
 @media (min-width: 415px) {
   form > label {
