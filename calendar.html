@@ -1,12 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Calendars</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            min-height: calc(100vh - 20px);
+        }
+
+        .calendar-main {
+            width: 252px;
+            border: 1px solid #ccc;
+            background-color: floralwhite;
+            margin: auto;
+            box-shadow: 0 4px 6px -3px rgba(0, 0, 0, .4);
+        }
+
+        header {
+            background-color: dodgerblue;
+            color: white;
+            padding: 6px;
+        }
+
+        nav>h4,
+        header>h4,
+        header>h2 {
+            margin: 6px;
+        }
+
+        nav {
+            font-size: 1.4rem;
+        }
+
+        section,
+        main {
+            display: grid;
+            grid-template-columns: repeat(7, 33.3px);
+            grid-gap: 3px;
+        }
+
+        section>b {
+            text-align: center;
+        }
+
+        main>b.today {
+            background-color: gainsboro;
+        }
+
+        main>b {
+            text-align: right;
+            font-weight: normal;
+            padding: 8px 8px 8px 0;
+        }
+
+        main>b:not(:empty),
+        header>svg {
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div class="calendar-main">
+        <header>
+            <h4>2002</h4>
+            <h2>Wednesday 10</h2>
+        </header>
+        <nav>
+            <svg viewBox="0 0 24 24" height="32" width="32" data-icon="chevron-left" data-inc=-1></svg>
+            <h4>July</h4>
+            <svg viewBox="0 0 24 24" height="32" width="32" data-icon="chevron-right" data-inc=1></svg>
+        </nav>
+        <section><b>SU</b><b>MO</b><b>TU</b><b>WE</b><b>TH</b><b>FR</b><b>SA</b></section>
+        <main>
+            <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+            <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+        </main>
+    </div>
+    <script>
+        function fillWithToday() {
+            let workdate = new Date();
+            let year = workdate.getFullYear();
+            let dayname = workdate.toLocaleString('default', { weekday: 'long' });
+            var days = (new Date(year, workdate.getMonth() + 1, 0)).getDate();
+
+            const today = workdate.getDate();
+            workdate.setDate(1);
+            const n1 = workdate.getDay();
+            const allb = Array.from(document.querySelectorAll("main>b"));
+            let remove = document.querySelector("main>b.today");
+            if (remove)
+                remove.classList.remove("today");
+            allb.splice(n1, days).forEach((b, i) => {
+                b.textContent = i + 1;
+                b.onclick = function (e) {
+                };
+                if ((i + 1) == today)
+                    b.classList.add("today");
+            });
+            document.querySelector("nav>h4").textContent = workdate.toLocaleString('default', { month: 'long' });
+            document.querySelector("header>h4").textContent = year;
+            document.querySelector("header>h2").textContent = `${dayname} ${today}`;
+            // the splice above leaves only the unused day cells in allb
+            allb.forEach(b => b.textContent = "");
+        }
+        fillWithToday();
+    </script>
 </body>
+
 </html>
